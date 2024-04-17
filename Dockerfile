@@ -4,5 +4,5 @@ LABEL maintainer="Luca Marchiori" \
 WORKDIR /app
 COPY /MicroserviceSource/bin /app
 EXPOSE 4000
-#CMD ["./api"]
+ENTRYPOINT [ "./server" ]
 
