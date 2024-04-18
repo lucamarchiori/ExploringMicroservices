@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - 5432:5432
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_USER=root
+      - POSTGRES_DB=users
+    volumes:
+      - ~/apps/postgres:/var/lib/postgresql/data
+  
+  # Users Microservice
+  users_microservice:
+    build: ./UsersMicroservice
+    ports:
+      - 4000:4000
+    depends_on:
+      - postgres
