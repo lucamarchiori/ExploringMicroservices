@@ -1,15 +1,15 @@
 FROM golang:1.21 AS BUILDER
 WORKDIR /app
-COPY ./src /app
+COPY ./src ./src
+WORKDIR /app/src
 RUN go mod download
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o ./bin/server ./cmd/api/
-
 
 FROM alpine:3.19.1
 LABEL maintainer="Luca Marchiori" \
       description="Dockerfile for the API microservice"
 WORKDIR /app
-COPY --from=0 /src/bin /app
+COPY --from=0 /app/src/bin .
 EXPOSE 4000
 ENTRYPOINT [ "./server" ]
 
