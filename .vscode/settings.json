@@ -1,0 +1,14 @@
+{
+    "git.enabled": false,
+
+    // Disable all extensions except for the ones listed below
+    "extensions.ignoreRecommendations": true,
+    "extensions.autoUpdate": false,
+    "extensions.autoCheckUpdates": false,
+
+    // Disable telemetry
+    "telemetry.enableTelemetry": false,
+}
+
+
+

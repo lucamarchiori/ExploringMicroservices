@@ -6,6 +6,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"lucamarchiori/MicroserviceBoilerplate/internal/data"
 	"net/http"
 	"os"
 	"strconv"
@@ -37,6 +38,7 @@ type config struct {
 type application struct {
 	config config
 	logger *log.Logger
+	models data.Models
 }
 
 func main() {
@@ -82,6 +84,7 @@ func main() {
 	app := &application{
 		config: cfg,
 		logger: logger,
+		models: data.NewModels(db),
 	}
 
 	r := mux.NewRouter()
