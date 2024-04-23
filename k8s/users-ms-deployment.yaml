@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-ms-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: users-ms
+  template:
+    metadata:
+      labels:
+        component: users-ms
+    spec:
+      containers:
+      - name: users-ms
+        image: users-ms:latest
+        ports:
+        - containerPort: 3000
