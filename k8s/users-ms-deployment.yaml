@@ -16,7 +16,7 @@ spec:
       - name: users-ms
         image: europe-west3-docker.pkg.dev/exploringmicroservices/exploringmicroservices/users-ms:latest
         ports:
-        - containerPort: 3000
+        - containerPort: 4000
         env:
           - name: POSTGRES_DB
             value: users
@@ -25,21 +25,9 @@ spec:
           - name: POSTGRES_PASSWORD
             value: root
           - name: POSTGRES_HOST
-            value: users-ms-db
+            value: users-db-cluster-ip-service
           - name: POSTGRES_PORT
-            value: "5432"
-      - name: users-ms-db
-        image: postgres:15-alpine
-        ports:
-        - containerPort: 5432
-        env:
-          - name: POSTGRES_DB
-            value: users
-          - name: POSTGRES_USER
-            value: root
-          - name: POSTGRES_PASSWORD
-            value: root
-            
+            value: "5432"          
       imagePullSecrets:
       - name: k8s-gcloud
 

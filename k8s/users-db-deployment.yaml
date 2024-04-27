@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-db-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: users-db
+  template:
+    metadata:
+      labels:
+        component: users-db
+    spec:
+      volumes:
+      - name: users-db-storage
+        persistentVolumeClaim:
+          claimName: db-pvc
+      containers:
+      - name: users-db
+        image: postgres
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - name: users-db-storage
+          mountPath: /var/lib/postgresql/data
+          subPath: users
+        env:
+          - name: POSTGRES_DB
+            value: users
+          - name: POSTGRES_USER
+            value: root
+          - name: POSTGRES_PASSWORD
+            value: root
