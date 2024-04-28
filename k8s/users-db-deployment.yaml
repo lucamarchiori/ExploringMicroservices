@@ -27,7 +27,7 @@ spec:
           subPath: users
         env:
           - name: POSTGRES_DB
-            value: users
+            value: postgres
           - name: POSTGRES_USER
             value: root
           - name: POSTGRES_PASSWORD

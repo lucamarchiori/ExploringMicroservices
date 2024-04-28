@@ -4,7 +4,7 @@ metadata:
   name: users-ms-cluster-ip-service
 spec:
   selector:
-    component: users-ms-deployment
+    component: users-ms
   ports:
     - port: 4000
       targetPort: 4000

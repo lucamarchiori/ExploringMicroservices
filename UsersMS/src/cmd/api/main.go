@@ -42,7 +42,6 @@ type application struct {
 }
 
 func main() {
-
 	// Declare an instance of the config struct.
 	var cfg config
 	// Read the value of the port and env command-line flags into the config struct. We
@@ -69,7 +68,17 @@ func main() {
 	// prefixed with the current date and time.
 	logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
 
-	logger.Printf("testFlags: %s", cfg.db.host)
+	logger.Printf("UsersMS version %s started", version)
+	logger.Printf("--- Configuration: ---")
+	logger.Printf("Server port: %d", cfg.port)
+	logger.Printf("Environment: %s", cfg.env)
+	logger.Printf("Database host: %s", cfg.db.host)
+	logger.Printf("Database port: %d", cfg.db.port)
+	logger.Printf("Database user: %s", cfg.db.user)
+	logger.Printf("Database name: %s", cfg.db.database)
+	logger.Printf("---------------------")
+
+	logger.Printf("Starting database connection procedure ...")
 
 	db, err := openDB(cfg)
 	if err != nil {

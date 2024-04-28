@@ -1,0 +1,18 @@
+# This is a service that exposes the users-db pod to the outside world
+# Used to access the database from outside the cluster for development purposes
+# Disable this service in production
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-db-node-port
+spec:
+  type: NodePort
+  # Ports to expose on the selected objects
+  ports:
+    - port: 5432
+      targetPort: 5432
+      nodePort: 30432
+  selector:
+    # Label of the pod that we want to expose
+    component: users-db

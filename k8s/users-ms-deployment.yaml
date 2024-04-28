@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: users-ms-deployment
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       component: users-ms
@@ -19,7 +19,7 @@ spec:
         - containerPort: 4000
         env:
           - name: POSTGRES_DB
-            value: users
+            value: postgres
           - name: POSTGRES_USER
             value: root
           - name: POSTGRES_PASSWORD
@@ -27,7 +27,7 @@ spec:
           - name: POSTGRES_HOST
             value: users-db-cluster-ip-service
           - name: POSTGRES_PORT
-            value: "5432"          
+            value: "5432"
       imagePullSecrets:
       - name: k8s-gcloud
 
