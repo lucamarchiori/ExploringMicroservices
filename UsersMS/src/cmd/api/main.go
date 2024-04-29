@@ -97,7 +97,6 @@ func main() {
 	}
 
 	r := mux.NewRouter()
-	r.HandleFunc("/healthcheck", app.healthcheckHandler)
 	http.Handle("/", r)
 
 	// Declare a HTTP server with some sensible timeout settings, which listens on the

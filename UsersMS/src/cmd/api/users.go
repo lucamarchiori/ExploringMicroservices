@@ -64,3 +64,19 @@ func (app *application) showUserHandler(w http.ResponseWriter, r *http.Request) 
 		app.serverErrorResponse(w, r, err)
 	}
 }
+
+func (app *application) indexUserHandler(w http.ResponseWriter, r *http.Request) {
+	users := []*data.User{
+		{
+			ID:       1,
+			Name:     "Luca",
+			Surname:  "Marchiori",
+			Email:    "luca.marchiori@example.com",
+			Password: "password",
+		}}
+
+	err := app.writeJSON(w, http.StatusOK, envelope{"users": users}, nil)
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+	}
+}

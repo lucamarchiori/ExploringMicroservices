@@ -1,0 +1,11 @@
+services:
+  open-api:
+    container_name: open-api
+    image: swaggerapi/swagger-ui
+    ports:
+      - "8080:8080"
+    restart: always
+    volumes:
+      - ./OpenApiDocs.yaml:$HOME/OpenApiDocs.yaml
+    environment:
+      - SWAGGER_JSON=$HOME/OpenApiDocs.yaml

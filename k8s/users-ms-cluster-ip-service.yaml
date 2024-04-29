@@ -3,9 +3,9 @@ kind: Service
 metadata:
   name: users-ms-cluster-ip-service
 spec:
+  type: ClusterIP
   selector:
     component: users-ms
   ports:
     - port: 4000
       targetPort: 4000
-  type: ClusterIP

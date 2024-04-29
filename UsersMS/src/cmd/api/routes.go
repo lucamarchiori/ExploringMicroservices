@@ -6,7 +6,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func (app *application) routes() *mux.Router {
+func (app *application) routes() http.Handler {
 	// Initialize a new httprouter router instance.
 	router := mux.NewRouter()
 
@@ -18,12 +18,11 @@ func (app *application) routes() *mux.Router {
 	// endpoints using the HandlerFunc() method. Note that http.MethodGet and
 	// http.MethodPost are constants which equate to the strings "GET" and "POST"
 	// respectively.
-	router.HandleFunc("/healthcheck", app.healthcheckHandler)
-	//router.HandleFunc("/users", getPosts).Methods("GET")
-	router.HandleFunc("/users", app.createUserHandler).Methods("POST")
-	router.HandleFunc("/users/{id}", app.showUserHandler).Methods("GET")
+	router.HandleFunc("/healthcheck", app.healthcheckHandler).Methods("GET")
+	router.HandleFunc("/user", app.createUserHandler).Methods("POST")
+	router.HandleFunc("/user/{id}", app.showUserHandler).Methods("GET")
+	router.HandleFunc("/user", app.indexUserHandler).Methods("GET")
 	//router.HandleFunc("/users/{id}", updatePost).Methods("PUT")
 	//router.HandleFunc("/users/{id}", deletePost).Methods("DELETE")
-	// Return the httprouter instance.
-	return router
+	return app.enableCORS(router)
 }

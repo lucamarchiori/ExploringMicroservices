@@ -11,4 +11,4 @@ spec:
       nodePort: 30400
   selector:
     # Label of the pod that we want to expose
-    component: users-ms-deployment
+    component: users-ms

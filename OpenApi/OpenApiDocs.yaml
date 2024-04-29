@@ -1,0 +1,107 @@
+openapi: 3.0.0
+info:
+  title: Exploring Microservices
+  version: 0.2.0
+  description: Project to explore microservices architecture - Runtimes For Concurrency and Distribution - UniPd
+
+servers:
+  - url: http://localhost:8000
+    description: Local Server
+  - url: http://192.168.59.100:30400
+    description: Local Server
+
+tags:
+  - name: Users
+    description: Users Microservice. Creation and management of users
+ 
+
+components:
+  responses:
+    server_error:
+      description: Server Error
+      content:
+        application/json:
+          schema:
+            type: object
+          examples:
+            example-0:
+              summary: Example 1
+              value:
+                status: 500
+                message:
+                  error: Custom message
+    validation_error:
+      description: Validation Error
+      content:
+        application/json:
+          schema:
+            type: object
+          examples:
+            example-0:
+              summary: Example 0
+              value:
+                status: 422
+                message:
+                  error: "Invalid fields"
+                validation_errors:
+                  error_field_1: error message 1
+                  error_field_2: error message 2
+            example-1:
+              summary: Example 1
+              value:
+                status: 422
+                message:
+                  error: "Invalid fields"
+                validation_errors:
+                  name: The name field is required.
+
+
+    unauthorized_error:
+      description: Unauthorized Error
+      content:
+        application/json:
+          schema:
+            type: object
+          examples:
+            example-0:
+              summary: Example 0
+              value:
+                status: 403
+                message:
+                  error: "Unauthorized"
+    warning:
+      description: Warning response
+      content:
+        application/json:
+          schema:
+            type: object
+          examples:
+            example-0:
+              summary: Example 0
+              value:
+                status: 199
+                message:
+                  warning: "Warning message"
+
+paths:
+  /user:
+    get:
+      tags:
+        - Users
+      summary: Get all users
+      description: Get all users
+      responses:
+        "500":
+          $ref: '#/components/responses/server_error'
+  /healthcheck:
+    get:
+      tags:
+        - Users
+      summary: Healthcheck
+      description: Check the health of the service
+
+      responses:
+        "500":
+          $ref: '#/components/responses/server_error'
+
+ 
