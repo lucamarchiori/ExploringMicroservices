@@ -93,6 +93,58 @@ paths:
       responses:
         "500":
           $ref: '#/components/responses/server_error'
+    post:
+      tags:
+        - Users
+      summary: Store a new user
+      description: Store a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: John
+                surname:
+                  type: string
+                  example: Doe
+                email:
+                  type: string
+                  example: user@example.com
+                password:
+                  type: string
+                  example: 12345678
+      responses:
+        "500":
+          $ref: '#/components/responses/server_error'
+  /user/{id}:
+    get:
+      tags:
+        - Users
+      summary: Get a single user by id
+      description: Get a single user by id
+      responses:
+        "500":
+          $ref: '#/components/responses/server_error'
+    put:
+      tags:
+        - Users
+      summary: Update a user
+      description: Update a user
+      responses:
+        "500":
+          $ref: '#/components/responses/server_error'
+    delete:
+      tags:
+        - Users
+      summary: Delete a user
+      description: Delete a user
+      responses:
+        "500":
+          $ref: '#/components/responses/server_error'
   /healthcheck:
     get:
       tags:

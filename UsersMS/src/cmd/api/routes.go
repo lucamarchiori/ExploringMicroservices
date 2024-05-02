@@ -21,7 +21,10 @@ func (app *application) routes() http.Handler {
 	router.HandleFunc("/healthcheck", app.healthcheckHandler).Methods("GET")
 	router.HandleFunc("/user", app.createUserHandler).Methods("POST")
 	router.HandleFunc("/user/{id}", app.showUserHandler).Methods("GET")
-	router.HandleFunc("/user", app.indexUserHandler).Methods("GET")
+	router.HandleFunc("/user", app.indexUsersHandler).Methods("GET")
+	router.HandleFunc("/user/{id}", app.updateUserHandler).Methods("PUT")
+	router.HandleFunc("/user/{id}", app.deleteUserHandler).Methods("DELETE")
+
 	//router.HandleFunc("/users/{id}", updatePost).Methods("PUT")
 	//router.HandleFunc("/users/{id}", deletePost).Methods("DELETE")
 	return app.enableCORS(router)

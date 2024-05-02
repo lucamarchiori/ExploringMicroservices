@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"errors"
 	"log"
 	"lucamarchiori/MicroserviceBoilerplate/internal/data"
 	"lucamarchiori/MicroserviceBoilerplate/internal/validator"
@@ -13,9 +13,10 @@ func (app *application) createUserHandler(w http.ResponseWriter, r *http.Request
 
 	// Anonymous struct to hold the information expected to be in the HTTP request body
 	var input struct {
-		Name    string `json:"name"`
-		Surname string `json:"surname"`
-		Email   string `json:"email"`
+		Name     string `json:"name"`
+		Surname  string `json:"surname"`
+		Email    string `json:"email"`
+		Password string `json:"password"`
 	}
 
 	// json.Decoder instance which reads from the request body, and then use the Decode() method to decode the body contents into the input struct.
@@ -32,6 +33,12 @@ func (app *application) createUserHandler(w http.ResponseWriter, r *http.Request
 		Email:   input.Email,
 	}
 
+	err = user.Password.Set(input.Password)
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+		return
+	}
+
 	// Validation
 	v := validator.New()
 	if data.ValidateUser(v, user); !v.Valid() {
@@ -39,23 +46,37 @@ func (app *application) createUserHandler(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	// Dump the contents of the input struct in a HTTP response.
-	fmt.Fprintf(w, "%+v\n", input)
+	// Model insert
+	err = app.models.Users.Insert(user)
+	if err != nil {
+		switch {
+		case errors.Is(err, data.ErrDuplicateEmail):
+			v.AddError("email", "a user with this email address already exists")
+			app.failedValidationResponse(w, r, v.Errors)
+		default:
+			app.serverErrorResponse(w, r, err)
+		}
+		return
+	}
+
+	err = app.writeJSON(w, http.StatusCreated, envelope{"user": user}, nil)
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+	}
 }
 
 func (app *application) showUserHandler(w http.ResponseWriter, r *http.Request) {
-	id, err := app.readIDParam(r)
+	id, err := app.readIdParam(r)
 	if err != nil {
 		app.notFoundResponse(w, r)
 		return
 	}
 
 	user := data.User{
-		ID:       int(id),
-		Name:     "Luca",
-		Surname:  "Marchiori",
-		Email:    "ladmin@example.com",
-		Password: "password",
+		Id:      int(id),
+		Name:    "Luca",
+		Surname: "Marchiori",
+		Email:   "ladmin@example.com",
 	}
 
 	// Encode the struct to JSON and send it as the HTTP response.
@@ -65,18 +86,25 @@ func (app *application) showUserHandler(w http.ResponseWriter, r *http.Request) 
 	}
 }
 
-func (app *application) indexUserHandler(w http.ResponseWriter, r *http.Request) {
-	users := []*data.User{
-		{
-			ID:       1,
-			Name:     "Luca",
-			Surname:  "Marchiori",
-			Email:    "luca.marchiori@example.com",
-			Password: "password",
-		}}
+func (app *application) indexUsersHandler(w http.ResponseWriter, r *http.Request) {
+	app.logger.Printf("Index users handler called")
+	var users []*data.User
 
-	err := app.writeJSON(w, http.StatusOK, envelope{"users": users}, nil)
+	users, err := app.models.Users.Index()
+	if err != nil {
+		app.logger.Printf("Error: %v", err)
+		app.serverErrorResponse(w, r, err)
+		return
+	}
+
+	err = app.writeJSON(w, http.StatusOK, envelope{"users": users}, nil)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
 	}
+}
+
+func (app *application) updateUserHandler(w http.ResponseWriter, r *http.Request) {
+}
+
+func (app *application) deleteUserHandler(w http.ResponseWriter, r *http.Request) {
 }
