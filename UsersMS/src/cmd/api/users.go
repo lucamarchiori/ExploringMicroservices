@@ -66,17 +66,20 @@ func (app *application) createUserHandler(w http.ResponseWriter, r *http.Request
 }
 
 func (app *application) showUserHandler(w http.ResponseWriter, r *http.Request) {
+	app.logger.Printf("Index users handler called")
+
 	id, err := app.readIdParam(r)
 	if err != nil {
 		app.notFoundResponse(w, r)
 		return
 	}
 
-	user := data.User{
-		Id:      int(id),
-		Name:    "Luca",
-		Surname: "Marchiori",
-		Email:   "ladmin@example.com",
+	user, err := app.models.Users.Get(id)
+
+	if err != nil {
+		app.logger.Printf("Error: %v", err)
+		app.serverErrorResponse(w, r, err)
+		return
 	}
 
 	// Encode the struct to JSON and send it as the HTTP response.

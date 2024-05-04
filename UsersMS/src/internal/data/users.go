@@ -123,9 +123,33 @@ func (m UserModel) Index() (users []*User, err error) {
 	return users, nil
 }
 
-// Add a placeholder method for fetching a specific record from the table.
 func (m UserModel) Get(id int64) (*User, error) {
-	return nil, nil
+
+	query := `
+	SELECT *
+	FROM users.users
+	WHERE id=$1
+	`
+	var u User
+	err := m.DB.QueryRow(query, id).Scan(
+		&u.Id,
+		&u.Name,
+		&u.Surname,
+		&u.Email,
+		&u.Password.hash,
+		&u.UpdatedAt,
+	)
+
+	if err != nil {
+		switch {
+		case errors.Is(err, sql.ErrNoRows):
+			return nil, ErrRecordNotFound
+		default:
+			return nil, err
+		}
+	}
+
+	return &u, nil
 }
 
 // Add a placeholder method for updating a specific record in the table.

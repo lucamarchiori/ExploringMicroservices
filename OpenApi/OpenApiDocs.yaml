@@ -5,9 +5,7 @@ info:
   description: Project to explore microservices architecture - Runtimes For Concurrency and Distribution - UniPd
 
 servers:
-  - url: http://localhost:8000
-    description: Local Server
-  - url: http://192.168.59.100:30400
+  - url: http://192.168.59.100
     description: Local Server
 
 tags:
@@ -126,6 +124,14 @@ paths:
         - Users
       summary: Get a single user by id
       description: Get a single user by id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the user to get
+
       responses:
         "500":
           $ref: '#/components/responses/server_error'
