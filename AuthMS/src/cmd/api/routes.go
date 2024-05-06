@@ -10,16 +10,13 @@ func (app *application) routes() http.Handler {
 	// Initialize a new httprouter router instance.
 	router := mux.NewRouter()
 
-	// Register custom NotFound and MethodNotAllowed handlers for the router.
+	// Custom 404 and 405 handlers
 	router.NotFoundHandler = http.HandlerFunc(app.notFoundResponse)
 	router.MethodNotAllowedHandler = http.HandlerFunc(app.methodNotAllowedResponse)
 
-	// API Routes and handlers
+	// Endpoints
 	router.HandleFunc("/healthcheck", app.healthcheckHandler).Methods("GET")
-	router.HandleFunc("/users", app.createUserHandler).Methods("POST")
-	router.HandleFunc("/users/{id}", app.showUserHandler).Methods("GET")
-	router.HandleFunc("/users", app.indexUsersHandler).Methods("GET")
-	//router.HandleFunc("/users/{id}", updatePost).Methods("PUT")
-	//router.HandleFunc("/users/{id}", deletePost).Methods("DELETE")
+	router.HandleFunc("/auth/login", app.loginHandler).Methods("POST")
+	router.HandleFunc("/auth/signup", app.signUpHandler).Methods("POST")
 	return app.enableCORS(router)
 }

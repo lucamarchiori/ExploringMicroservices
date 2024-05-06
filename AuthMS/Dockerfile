@@ -12,4 +12,5 @@ COPY --from=0 /app/src/bin .
 EXPOSE 4000
 ENTRYPOINT [ "./server" ]
 
-# docker build -t europe-west3-docker.pkg.dev/exploringmicroservices/exploringmicroservices/users-ms:latest . && docker push europe-west3-docker.pkg.dev/exploringmicroservices/exploringmicroservices/users-ms:latest
+
+# docker build -t europe-west3-docker.pkg.dev/exploringmicroservices/exploringmicroservices/auth-ms:latest . && docker push europe-west3-docker.pkg.dev/exploringmicroservices/exploringmicroservices/auth-ms:latest

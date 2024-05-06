@@ -33,7 +33,7 @@ func (app *application) createUserHandler(w http.ResponseWriter, r *http.Request
 		Email:   input.Email,
 	}
 
-	err = user.Password.Set(input.Password)
+	user.Password, err = data.HashPassword(input.Password)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
 		return
@@ -90,24 +90,28 @@ func (app *application) showUserHandler(w http.ResponseWriter, r *http.Request) 
 }
 
 func (app *application) indexUsersHandler(w http.ResponseWriter, r *http.Request) {
-	app.logger.Printf("Index users handler called")
-	var users []*data.User
 
-	users, err := app.models.Users.Index()
+	// Request inputs (filters)
+	var input struct {
+		Email string `json:"email"`
+		data.Filters
+	}
+
+	// Read parameters from request
+	qs := r.URL.Query()
+	input.Email = app.readString(qs, "email", "")
+
+	// Store the query result
+	var users []*data.User
+	users, err := app.models.Users.Index(input.Email)
 	if err != nil {
-		app.logger.Printf("Error: %v", err)
 		app.serverErrorResponse(w, r, err)
 		return
 	}
 
-	err = app.writeJSON(w, http.StatusOK, envelope{"users": users}, nil)
+	// Return response
+	err = app.writeJSON(w, http.StatusOK, envelope{"users": users, "input": input}, nil)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
 	}
-}
-
-func (app *application) updateUserHandler(w http.ResponseWriter, r *http.Request) {
-}
-
-func (app *application) deleteUserHandler(w http.ResponseWriter, r *http.Request) {
 }

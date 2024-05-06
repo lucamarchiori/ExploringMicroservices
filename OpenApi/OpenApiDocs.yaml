@@ -82,12 +82,22 @@ components:
                   warning: "Warning message"
 
 paths:
-  /user:
+  /users:
     get:
       tags:
         - Users
       summary: Get all users
       description: Get all users
+      parameters:
+        - in: query
+          name: email
+          schema:
+            type: string
+          required: false
+          description: Filter by user email
+          example: user@example.com
+
+
       responses:
         "500":
           $ref: '#/components/responses/server_error'
@@ -118,7 +128,7 @@ paths:
       responses:
         "500":
           $ref: '#/components/responses/server_error'
-  /user/{id}:
+  /users/{id}:
     get:
       tags:
         - Users
@@ -138,16 +148,18 @@ paths:
     put:
       tags:
         - Users
-      summary: Update a user
+      summary: Update a user (NYI)
       description: Update a user
+      deprecated: true
       responses:
         "500":
           $ref: '#/components/responses/server_error'
     delete:
       tags:
         - Users
-      summary: Delete a user
+      summary: Delete a user (NYI)
       description: Delete a user
+      deprecated: true
       responses:
         "500":
           $ref: '#/components/responses/server_error'

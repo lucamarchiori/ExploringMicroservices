@@ -15,7 +15,7 @@ type User struct {
 	Name      string    `json:"name,omitempty"`
 	Surname   string    `json:"surname,omitempty"`
 	Email     string    `json:"email,omitempty"`
-	Password  password  `json:"password,omitempty"`
+	Password  string    `json:"password,omitempty"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
@@ -41,19 +41,18 @@ type UserModel struct {
 }
 
 // Calculates the bcrypt hash of a plaintext password, and stores both the hash and the plaintext versions in the struct.
-func (p *password) Set(plaintextPassword string) error {
+func HashPassword(plaintextPassword string) (password string, err error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(plaintextPassword), 12)
 	if err != nil {
-		return err
+		return "", err
 	}
-	p.plaintext = &plaintextPassword
-	p.hash = hash
-	return nil
+	password = string(hash)
+	return password, nil
 }
 
 // Checks whether the provided plaintext password matches the hashed password stored in the struct, returning true if it matches and false otherwise.
-func (p *password) Matches(plaintextPassword string) (bool, error) {
-	err := bcrypt.CompareHashAndPassword(p.hash, []byte(plaintextPassword))
+func (u User) passwordMatch(plaintextPassword string) (bool, error) {
+	err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(plaintextPassword))
 	if err != nil {
 		switch {
 		case errors.Is(err, bcrypt.ErrMismatchedHashAndPassword):
@@ -73,7 +72,7 @@ func (m UserModel) Insert(user *User) (err error) {
 	RETURNING id, created_at
 	`
 
-	args := []interface{}{user.Name, user.Surname, user.Email, user.Password.hash}
+	args := []interface{}{user.Name, user.Surname, user.Email, user.Password}
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
@@ -88,17 +87,23 @@ func (m UserModel) Insert(user *User) (err error) {
 }
 
 // Get all the models
-func (m UserModel) Index() (users []*User, err error) {
+func (m UserModel) Index(email string) (users []*User, err error) {
 	query := `
 	SELECT *
 	FROM users.users
+	WHERE (LOWER(email) = LOWER($1) OR $1 = '')
 	ORDER BY id
 	`
 
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	rows, err := m.DB.QueryContext(ctx, query)
+	rows, err := m.DB.QueryContext(ctx, query, email)
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
 
 	for rows.Next() {
 		var user User
@@ -107,7 +112,7 @@ func (m UserModel) Index() (users []*User, err error) {
 			&user.Name,
 			&user.Surname,
 			&user.Email,
-			&user.Password.hash,
+			&user.Password,
 			&user.CreatedAt,
 		)
 		if err != nil {
@@ -124,7 +129,6 @@ func (m UserModel) Index() (users []*User, err error) {
 }
 
 func (m UserModel) Get(id int64) (*User, error) {
-
 	query := `
 	SELECT *
 	FROM users.users
@@ -136,7 +140,7 @@ func (m UserModel) Get(id int64) (*User, error) {
 		&u.Name,
 		&u.Surname,
 		&u.Email,
-		&u.Password.hash,
+		&u.Password,
 		&u.UpdatedAt,
 	)
 
@@ -154,10 +158,12 @@ func (m UserModel) Get(id int64) (*User, error) {
 
 // Add a placeholder method for updating a specific record in the table.
 func (m UserModel) Update(user *User) error {
+	// TBI
 	return nil
 }
 
 // Add a placeholder method for deleting a specific record from the table.
 func (m UserModel) Delete(id int64) error {
+	// TBI
 	return nil
 }
