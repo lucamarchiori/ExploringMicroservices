@@ -84,7 +84,7 @@ components:
                   warning: "Warning message"
 
 paths:
-  /users:
+  /users-ms/users:
     get:
       tags:
         - Users
@@ -128,7 +128,7 @@ paths:
       responses:
         "500":
           $ref: '#/components/responses/server_error'
-  /users/{id}:
+  /users-ms/users/{id}:
     get:
       tags:
         - Users
@@ -163,7 +163,7 @@ paths:
       responses:
         "500":
           $ref: '#/components/responses/server_error'
-  /healthcheck:
+  /users-ms/healthcheck:
     get:
       tags:
         - Users
@@ -176,7 +176,7 @@ paths:
 
  
 
-  /auth/login:
+  /auth-ms/auth/login:
       post:
         tags:
           - Auth

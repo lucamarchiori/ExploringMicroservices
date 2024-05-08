@@ -34,7 +34,7 @@ func (app *application) loginHandler(w http.ResponseWriter, r *http.Request) {
 	// Get the corresponding user from the users microservice
 	app.logger.Println("Sending request to users microservice")
 	httpClient := &http.Client{}
-	endpoint := "http://" + app.services["users"] + ":4000" + "/users?email=" + input.Email
+	endpoint := "http://" + app.services["users"] + ":4000" + "/users-ms/users?email=" + input.Email
 	req, err := http.NewRequest(http.MethodGet, endpoint, nil)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
