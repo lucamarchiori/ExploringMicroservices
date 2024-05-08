@@ -11,7 +11,9 @@ servers:
 tags:
   - name: Users
     description: Users Microservice. Creation and management of users
- 
+  - name: Auth
+    description: Authentication Microservice. Login handler.
+     
 
 components:
   responses:
@@ -96,8 +98,6 @@ paths:
           required: false
           description: Filter by user email
           example: user@example.com
-
-
       responses:
         "500":
           $ref: '#/components/responses/server_error'
@@ -175,3 +175,26 @@ paths:
           $ref: '#/components/responses/server_error'
 
  
+
+  /auth/login:
+      post:
+        tags:
+          - Auth
+        summary: Login
+        description: Login
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                    example: user@example.com
+                  password:
+                    type: string
+                    example: 12345678
+        responses:
+          "500":
+            $ref: '#/components/responses/server_error'

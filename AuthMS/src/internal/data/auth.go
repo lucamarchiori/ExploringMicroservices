@@ -1,6 +1,10 @@
 package data
 
 import (
+	"crypto/rand"
+	"encoding/hex"
+	"errors"
+
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -24,10 +28,33 @@ type password struct {
 }
 
 // Calculates the bcrypt hash of a plaintext password, and stores both the hash and the plaintext versions in the struct.
-func Hash(plaintextPassword string) ([]byte, error) {
+func HashPassword(plaintextPassword string) (password string, err error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(plaintextPassword), 12)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
-	return hash, nil
+	password = string(hash)
+	return password, nil
+}
+
+// Checks whether the provided plaintext password matches the hashed password stored in the struct, returning true if it matches and false otherwise.
+func PasswordMatch(plaintextPassword string, hash string) (bool, error) {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(plaintextPassword))
+	if err != nil {
+		switch {
+		case errors.Is(err, bcrypt.ErrMismatchedHashAndPassword):
+			return false, nil
+		default:
+			return false, err
+		}
+	}
+	return true, nil
+}
+
+func GenerateSecureToken(length int) string {
+	b := make([]byte, length)
+	if _, err := rand.Read(b); err != nil {
+		return ""
+	}
+	return hex.EncodeToString(b)
 }
