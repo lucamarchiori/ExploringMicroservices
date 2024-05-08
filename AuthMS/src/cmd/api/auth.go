@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"lucamarchiori/MicroserviceBoilerplate/internal/data"
 	"net/http"
@@ -15,7 +14,7 @@ func (app *application) loginHandler(w http.ResponseWriter, r *http.Request) {
 	// Step 1: get the email and hashed password from the request body
 	// Step 2: get the corresponding user from the users microservice
 	// Step 3: if the user is not found, return a 401 Unauthorized response
-	// Step 4: if the user is found, egenerate a new bearer token
+	// Step 4: if the user is found, generate a new bearer token
 	// Step 5: save the new token in the tokens table
 	// Step 6: return the token to the client
 
@@ -27,13 +26,8 @@ func (app *application) loginHandler(w http.ResponseWriter, r *http.Request) {
 
 	err := app.readJSON(w, r, &input)
 	if err != nil {
-		app.logger.Printf("Error reading JSON")
+		app.logger.Printf("Error reading JSON: %v", err)
 		app.badRequestResponse(w, r, err)
-		return
-	}
-
-	if err != nil {
-		app.serverErrorResponse(w, r, err)
 		return
 	}
 
@@ -47,7 +41,6 @@ func (app *application) loginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	app.logger.Println(req)
 	res, err := httpClient.Do(req)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
@@ -56,11 +49,9 @@ func (app *application) loginHandler(w http.ResponseWriter, r *http.Request) {
 
 	defer res.Body.Close()
 
-	app.logger.Println(res)
-
 	// Step 3: if the user is not found, return a 401 Unauthorized response
 	if res.StatusCode == http.StatusNotFound {
-		app.unauthorizedResponse(w, r, errors.New("the users microservice could not find the user with the specified email address"))
+		app.unauthorizedResponse(w, r)
 		return
 	} else if res.StatusCode != http.StatusOK {
 		err = errors.New("received a non-200 status code from the users microservice")
@@ -70,10 +61,14 @@ func (app *application) loginHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Read response body
 	body, err := io.ReadAll(res.Body)
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+		return
+	}
 
 	// Step 4: if the user is found, save it in the user variable
-	type Users []struct {
-		Id        int       `json:"id"`
+	type User struct {
+		ID        int       `json:"id"`
 		Name      string    `json:"name,omitempty"`
 		Surname   string    `json:"surname,omitempty"`
 		Email     string    `json:"email,omitempty"`
@@ -83,24 +78,32 @@ func (app *application) loginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var response struct {
-		Users Users `json:"users,omitempty"`
+		Users []User `json:"users,omitempty"`
 	}
 
 	if err := json.Unmarshal(body, &response); err != nil {
-		fmt.Println("Can not unmarshal JSON")
+		app.logger.Println("Can not unmarshal JSON:", err)
+		app.serverErrorResponse(w, r, err)
+		return
 	}
 
-	if len(response.Users) <= 0 {
+	if len(response.Users) == 0 {
 		app.logger.Println("No users found with the specified email address")
-		app.unauthorizedResponse(w, r, errors.New("the users microservice could not find the user with the specified email address"))
+		app.unauthorizedResponse(w, r)
+		return
 	}
 
 	// Get the first user returned and check for password match
 	pwdMatch, err := data.PasswordMatch(input.Password, response.Users[0].Password)
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+		return
+	}
 
 	if !pwdMatch {
 		app.logger.Println("Password does not match")
-		app.unauthorizedResponse(w, r, errors.New("wrong password"))
+		app.unauthorizedResponse(w, r)
+		return
 	}
 
 	// Generate a new bearer token
@@ -112,7 +115,6 @@ func (app *application) loginHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
 	}
-
 }
 
 // Handle the signup request

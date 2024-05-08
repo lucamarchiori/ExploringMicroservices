@@ -53,7 +53,7 @@ func (app *application) failedValidationResponse(w http.ResponseWriter, r *http.
 	app.errorResponse(w, r, http.StatusUnprocessableEntity, errors)
 }
 
-func (app *application) unauthorizedResponse(w http.ResponseWriter, r *http.Request, err error) {
+func (app *application) unauthorizedResponse(w http.ResponseWriter, r *http.Request) {
 	message := "unauthorized access to this resource"
 	app.errorResponse(w, r, http.StatusUnauthorized, message)
 }
