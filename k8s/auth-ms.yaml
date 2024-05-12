@@ -1,0 +1,54 @@
+# ---- DEPLOYMENT ----
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-ms-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: auth-ms
+  template:
+    metadata:
+      labels:
+        component: auth-ms
+    spec:
+      containers:
+      - name: auth-ms
+        image: europe-west3-docker.pkg.dev/exploringmicroservices/exploringmicroservices/auth-ms:latest
+        ports:
+        - containerPort: 4000
+        env:
+          - name: USER_MS_HOST
+            value: users-ms-cluster-ip-service
+      imagePullSecrets:
+      - name: k8s-gcloud
+---
+# ---- NODE PORT SERVICE ----
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-ms-node-port
+spec:
+  type: NodePort
+  # Ports to expose on the selected objects
+  ports:
+    - port: 4000
+      targetPort: 4000
+      nodePort: 30410
+  selector:
+    # Label of the pod that we want to expose
+    component: auth-ms
+---
+# ---- CLUSTER IP SERVICE ----
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-ms-cluster-ip-service
+spec:
+  type: ClusterIP
+  selector:
+    component: auth-ms
+  ports:
+    - port: 4000
+      targetPort: 4000

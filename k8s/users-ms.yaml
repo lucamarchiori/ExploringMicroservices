@@ -1,3 +1,6 @@
+
+
+# ----- DEPLOYMENT -----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -30,5 +33,33 @@ spec:
             value: "5432"
       imagePullSecrets:
       - name: k8s-gcloud
-
-        
+---
+# ----- NODE PORT SERVICE -----
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-ms-node-port
+spec:
+  type: NodePort
+  # Ports to expose on the selected objects
+  ports:
+    - port: 4000
+      targetPort: 4000
+      nodePort: 30400
+  selector:
+    # Label of the pod that we want to expose
+    component: users-ms
+---
+# ----- CLUSTER IP SERVICE -----
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-ms-cluster-ip-service
+spec:
+  type: ClusterIP
+  selector:
+    component: users-ms
+  ports:
+    - protocol: TCP
+      port: 4000
+      targetPort: 4000
