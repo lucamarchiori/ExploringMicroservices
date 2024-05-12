@@ -88,6 +88,13 @@ func main() {
 
 	logger.Printf("database connection pool established")
 
+	logger.Printf("Starting database migration procedure ...")
+	err = runDbMigration(db)
+	if err != nil {
+		logger.Fatal(err)
+	}
+	logger.Printf("database migration completed")
+
 	// Declare an instance of the application struct, containing the config struct and
 	// the logger.
 	app := &application{
@@ -138,4 +145,23 @@ func openDB(cfg config) (*sql.DB, error) {
 	}
 	// Return the sql.DB connection pool.
 	return db, nil
+}
+
+func runDbMigration(db *sql.DB) error {
+	sql := `
+	CREATE TABLE IF NOT EXISTS users.users (
+		id serial4 NOT NULL,
+		"name" varchar NULL,
+		surname varchar NULL,
+		email varchar NULL,
+		"password" varchar NULL,
+		created_at timestamp DEFAULT CURRENT_DATE NOT NULL
+	);
+	`
+	_, err := db.Exec(sql)
+	if err != nil {
+		return err
+	}
+	return nil
+
 }
