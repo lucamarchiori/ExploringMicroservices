@@ -21,6 +21,14 @@ spec:
         env:
           - name: USER_MS_HOST
             value: users-ms-cluster-ip-service
+          - name: RABBITMQ_HOST
+            value: user-events
+          - name: RABBITMQ_PORT
+            value: "5672"
+          - name: RABBITMQ_USER
+            value: default_user_SjJtHY-MiDGL8ZHG8FB
+          - name: RABBITMQ_PASS
+            value: 1D7Gq3hCjKdFOlwnyBliQG16OJbZWZDI
       imagePullSecrets:
       - name: k8s-gcloud
 ---

@@ -110,14 +110,21 @@ func (app *application) loginHandler(w http.ResponseWriter, r *http.Request) {
 	app.logger.Println("Password matches, generating new token")
 	token := "Bearer " + data.GenerateSecureToken(32)
 
+	// Create a new Auth instance
+	auth := &data.Auth{
+		Token: token,
+		User:  response.Users[0],
+	}
+
+	// Trigger auth event
+	err = auth.TriggerLoginEvent()
+	if err != nil {
+		app.logger.Println("Error triggering login event:", err)
+	}
+
 	// Return the token to the client along with the user
-	err = app.writeJSON(w, http.StatusOK, envelope{"user": response.Users[0], "token": token}, nil)
+	err = app.writeJSON(w, http.StatusOK, envelope{"auth": auth}, nil)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
 	}
-}
-
-// Handle the signup request
-func (app *application) signUpHandler(w http.ResponseWriter, r *http.Request) {
-
 }

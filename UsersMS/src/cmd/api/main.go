@@ -149,6 +149,7 @@ func openDB(cfg config) (*sql.DB, error) {
 
 func runDbMigration(db *sql.DB) error {
 	sql := `
+	CREATE SCHEMA IF NOT EXISTS users;
 	CREATE TABLE IF NOT EXISTS users.users (
 		id serial4 NOT NULL,
 		"name" varchar NULL,

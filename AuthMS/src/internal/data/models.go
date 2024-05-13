@@ -11,12 +11,12 @@ var (
 
 // Models struct which wraps the Model.
 type Models struct {
-	Auth AuthModel
+	Auth Auth
 }
 
 // Method which returns a Models struct containing the initialized Model.
 func NewModels() Models {
 	return Models{
-		Auth: AuthModel{},
+		Auth: Auth{},
 	}
 }

@@ -1,10 +1,16 @@
 package data
 
 import (
+	"context"
 	"crypto/rand"
 	"encoding/hex"
+	"encoding/json"
 	"errors"
+	"log"
+	"os"
+	"time"
 
+	amqp "github.com/rabbitmq/amqp091-go"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -16,10 +22,6 @@ type Auth struct {
 type AuthCredentials struct {
 	Email        string `json:"email"`
 	PasswordHash []byte `json:"password_hash"`
-}
-
-// Define a struct type which wraps a sql.DB connection pool.
-type AuthModel struct {
 }
 
 type password struct {
@@ -57,4 +59,70 @@ func GenerateSecureToken(length int) string {
 		return ""
 	}
 	return hex.EncodeToString(b)
+}
+
+func (auth *Auth) TriggerLoginEvent() error {
+	log.Println("Triggering login event")
+
+	user := os.Getenv("RABBITMQ_USER")
+	pass := os.Getenv("RABBITMQ_PASS")
+	host := os.Getenv("RABBITMQ_HOST")
+	port := os.Getenv("RABBITMQ_PORT")
+
+	conn, err := amqp.Dial("amqp://" + user + ":" + pass + "@" + host + ":" + port + "/")
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
+
+	log.Printf("Connected to RabbitMQ at %s:%s", host, port)
+
+	ch, err := conn.Channel()
+	if err != nil {
+		return err
+	}
+
+	log.Println("Opened a channel")
+
+	err = ch.ExchangeDeclare(
+		"user_events", // name
+		"direct",      // type
+		true,          // durable
+		false,         // auto-deleted
+		false,         // internal
+		false,         // no-wait
+		nil,           // arguments
+	)
+
+	if err != nil {
+		return err
+	}
+
+	log.Println("Declared an exchange")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	serialized, err := json.Marshal(auth)
+	if err != nil {
+		return err
+	}
+
+	err = ch.PublishWithContext(ctx,
+		"user_events", // exchange
+		"login",       // routing key
+		false,         // mandatory
+		false,         // immediate
+		amqp.Publishing{
+			ContentType: "text/plain",
+			Body:        serialized,
+		})
+
+	if err != nil {
+		return err
+	}
+
+	log.Printf(" [x] Sent %s", serialized)
+
+	return nil
 }

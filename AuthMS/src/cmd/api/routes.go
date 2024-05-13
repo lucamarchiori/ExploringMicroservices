@@ -28,6 +28,6 @@ func (app *application) routes() http.Handler {
 	// Endpoints
 	router.HandleFunc("/auth-ms/healthcheck", app.healthcheckHandler).Methods("GET")
 	router.HandleFunc("/auth-ms/auth/login", app.loginHandler).Methods("POST")
-	router.HandleFunc("/auth-ms/auth/signup", app.signUpHandler).Methods("POST")
+	//router.HandleFunc("/auth-ms/auth/signup", app.signUpHandler).Methods("POST")
 	return app.enableCORS(router)
 }
