@@ -1,0 +1,63 @@
+
+
+# ----- DEPLOYMENT -----
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notifications-ms-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: notifications-ms
+  template:
+    metadata:
+      labels:
+        component: notifications-ms
+    spec:
+      containers:
+      - name: notifications-ms
+        image: europe-west3-docker.pkg.dev/exploringmicroservices/exploringmicroservices/notifications-ms:latest
+        ports:
+        - containerPort: 4000
+        env:
+          - name: RABBITMQ_HOST
+            value: user-events
+          - name: RABBITMQ_PORT
+            value: "5672"
+          - name: RABBITMQ_USER
+            value: default_user_SjJtHY-MiDGL8ZHG8FB
+          - name: RABBITMQ_PASS
+            value: 1D7Gq3hCjKdFOlwnyBliQG16OJbZWZDI
+      imagePullSecrets:
+      - name: k8s-gcloud
+---
+# ----- NODE PORT SERVICE -----
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-ms-node-port
+spec:
+  type: NodePort
+  # Ports to expose on the selected objects
+  ports:
+    - port: 4000
+      targetPort: 4000
+      nodePort: 30401
+  selector:
+    # Label of the pod that we want to expose
+    component: notification-ms
+---
+# ----- CLUSTER IP SERVICE -----
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-ms-cluster-ip-service
+spec:
+  type: ClusterIP
+  selector:
+    component: notification-ms
+  ports:
+    - protocol: TCP
+      port: 4000
+      targetPort: 4000

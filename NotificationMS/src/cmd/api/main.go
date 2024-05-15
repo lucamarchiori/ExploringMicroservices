@@ -1,87 +1,124 @@
 package main
 
 import (
-	"flag"
-	"fmt"
 	"log"
-	"lucamarchiori/MicroserviceBoilerplate/internal/data"
-	"net/http"
 	"os"
-	"time"
 
-	"github.com/gorilla/mux"
+	amqp "github.com/rabbitmq/amqp091-go"
 )
 
-// Application version number
-const version = "1.0.0"
-
-// Config struct
-type config struct {
-	port int
-	env  string
+type rabbitMqEnv struct {
+	mqUser string
+	mqPass string
+	mqHost string
+	mqPort string
 }
 
-type services map[string]string
-
-// Define an application struct to hold the dependencies for our HTTP handlers, helpers,
-// and middleware. At the moment this only contains a copy of the config struct and a
-// logger, but it will grow to include a lot more as our build progresses.
 type application struct {
-	config   config
-	services services
-	logger   *log.Logger
-	models   data.Models
+	logger      *log.Logger
+	rabbitMqEnv *rabbitMqEnv
 }
 
 func main() {
-	// Declare an instance of the config struct.
-	var cfg config
-	var UsersMSHost string
-	var Services services
 
-	// Read the value of the port and env command-line flags into the config struct. We
-	// default to using the port number 4000 and the environment "development" if no
-	// corresponding flags are provided.
-	flag.IntVar(&cfg.port, "port", 4000, "API server port")
-	flag.StringVar(&cfg.env, "env", "development", "Environment (development|staging|production)")
-	flag.StringVar(&UsersMSHost, "users-ms-host", os.Getenv("USER_MS_HOST"), "Users microservice host")
-	flag.Parse()
-
-	Services = services{"users": UsersMSHost}
-
-	// Initialize a new logger which writes messages to the standard out stream,
-	// prefixed with the current date and time.
 	logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
-
-	logger.Printf("AuthMS version %s started", version)
-	logger.Printf("--- Configuration: ---")
-	logger.Printf("Server port: %d", cfg.port)
-	logger.Printf("Environment: %s", cfg.env)
-	logger.Printf("Users microservice host: %s", UsersMSHost)
-	logger.Printf("---------------------")
 
 	// Declare an instance of the application struct, containing the config struct and
 	// the logger.
 	app := &application{
-		config:   cfg,
-		logger:   logger,
-		models:   data.NewModels(),
-		services: Services,
+		logger: logger,
+		rabbitMqEnv: &rabbitMqEnv{
+			mqUser: os.Getenv("RABBITMQ_USER"),
+			mqPass: os.Getenv("RABBITMQ_PASS"),
+			mqHost: os.Getenv("RABBITMQ_HOST"),
+			mqPort: os.Getenv("RABBITMQ_PORT"),
+		},
 	}
 
-	r := mux.NewRouter()
-	http.Handle("/", r)
+	logger.Printf("Notifications microservice started")
+	logger.Printf("--- RabbitMQ Configuration: ---")
+	logger.Printf("Host: %s", app.rabbitMqEnv.mqHost)
+	logger.Printf("Port: %s", app.rabbitMqEnv.mqPort)
+	logger.Printf("User: %s", app.rabbitMqEnv.mqUser)
+	logger.Printf("---------------------")
 
-	srv := &http.Server{
-		Handler:      app.routes(),
-		Addr:         fmt.Sprintf(":%d", cfg.port),
-		IdleTimeout:  time.Minute,
-		ReadTimeout:  10 * time.Second,
-		WriteTimeout: 30 * time.Second,
+	ch, err := initMQConnection(app.rabbitMqEnv)
+	if err != nil {
+		app.logger.Printf("Failed to connect to RabbitMQ: %s", err)
 	}
 
-	// Start the HTTP server.
-	logger.Printf("starting %s server on %s", cfg.env, srv.Addr)
-	err := srv.ListenAndServe()
-	logger.Fatal(err)
+	err = ch.ExchangeDeclare(
+		"user_events", // name
+		"direct",      // type
+		true,          // durable
+		false,         // auto-deleted
+		false,         // internal
+		false,         // no-wait
+		nil,           // arguments
+	)
+
+	if err != nil {
+		app.logger.Fatalf("Failed to declare an exchange: %s", err)
+	}
+
+	q, err := ch.QueueDeclare(
+		"email_notification", // name
+		false,                // durable
+		false,                // delete when unused
+		true,                 // exclusive
+		false,                // no-wait
+		nil,                  // arguments
+	)
+
+	if err != nil {
+		app.logger.Fatalf("Failed to declare a queue: %s", err)
+	}
+
+	err = ch.QueueBind(
+		q.Name,        // queue name
+		"login",       // routing key
+		"user_events", // exchange
+		false,
+		nil)
+
+	if err != nil {
+		app.logger.Fatalf("Failed to bind a queue: %s", err)
+	}
+
+	msgs, err := ch.Consume(
+		q.Name, // queue
+		"",     // consumer
+		true,   // auto ack
+		false,  // exclusive
+		false,  // no local
+		false,  // no wait
+		nil,    // args
+	)
+
+	if err != nil {
+		app.logger.Fatalf("Failed to register a consumer: %s", err)
+	}
+
+	var forever chan struct{}
+
+	go func() {
+		for d := range msgs {
+			log.Printf(" [x] %s", d.Body)
+		}
+	}()
+
+	log.Printf(" [*] Waiting for logs. To exit press CTRL+C")
+	<-forever
+}
+
+func initMQConnection(env *rabbitMqEnv) (*amqp.Channel, error) {
+	conn, err := amqp.Dial("amqp://" + env.mqUser + ":" + env.mqPass + "@" + env.mqHost + ":" + env.mqPort + "/")
+	if err != nil {
+		return nil, err
+	}
+	defer conn.Close()
+
+	ch, err := conn.Channel()
+
+	return ch, nil
 }
