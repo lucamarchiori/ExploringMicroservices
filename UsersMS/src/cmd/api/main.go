@@ -150,6 +150,13 @@ func openDB(cfg config) (*sql.DB, error) {
 func runDbMigration(db *sql.DB) error {
 	sql := `
 	CREATE SCHEMA IF NOT EXISTS users;
+	`
+	_, err := db.Exec(sql)
+	if err != nil {
+		return err
+	}
+
+	sql = `
 	CREATE TABLE IF NOT EXISTS users.users (
 		id serial4 NOT NULL,
 		"name" varchar NULL,
@@ -159,10 +166,10 @@ func runDbMigration(db *sql.DB) error {
 		created_at timestamp DEFAULT CURRENT_DATE NOT NULL
 	);
 	`
-	_, err := db.Exec(sql)
+	_, err = db.Exec(sql)
 	if err != nil {
 		return err
 	}
-	return nil
 
+	return nil
 }

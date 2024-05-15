@@ -7,7 +7,8 @@ info:
 servers:
   - url: http://192.168.59.100
     description: Local Server
-
+  - url: http://192.168.49.2
+    description: Local Server
 tags:
   - name: Users
     description: Users Microservice. Creation and management of users
