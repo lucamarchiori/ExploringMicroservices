@@ -1,8 +1,11 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
+	"math/rand"
 	"os"
+	"time"
 
 	amqp "github.com/rabbitmq/amqp091-go"
 )
@@ -12,6 +15,12 @@ type rabbitMqEnv struct {
 	mqPass string
 	mqHost string
 	mqPort string
+}
+
+type Auth struct {
+	Token    string      `json:"string"`
+	User     interface{} `json:"user"`
+	Datetime time.Time   `json:"datetime"`
 }
 
 type application struct {
@@ -42,19 +51,28 @@ func main() {
 	logger.Printf("User: %s", app.rabbitMqEnv.mqUser)
 	logger.Printf("---------------------")
 
-	ch, err := initMQConnection(app.rabbitMqEnv)
+	conn, err := initMQConnection(app.rabbitMqEnv)
 	if err != nil {
 		app.logger.Printf("Failed to connect to RabbitMQ: %s", err)
 	}
 
+	defer conn.Close()
+
+	ch, err := initMQChannel(conn)
+	if err != nil {
+		app.logger.Printf("Failed to open a channel: %s", err)
+	}
+
+	defer ch.Close()
+
 	err = ch.ExchangeDeclare(
-		"user_events", // name
-		"direct",      // type
-		true,          // durable
-		false,         // auto-deleted
-		false,         // internal
-		false,         // no-wait
-		nil,           // arguments
+		"user_login_event", // name
+		"fanout",           // type
+		true,               // durable
+		false,              // auto-deleted
+		false,              // internal
+		false,              // no-wait
+		nil,                // arguments
 	)
 
 	if err != nil {
@@ -62,12 +80,12 @@ func main() {
 	}
 
 	q, err := ch.QueueDeclare(
-		"email_notification", // name
-		false,                // durable
-		false,                // delete when unused
-		true,                 // exclusive
-		false,                // no-wait
-		nil,                  // arguments
+		"login_email_notification", // name
+		false,                      // durable
+		false,                      // delete when unused
+		false,                      // exclusive
+		false,                      // no-wait
+		nil,                        // arguments
 	)
 
 	if err != nil {
@@ -75,9 +93,9 @@ func main() {
 	}
 
 	err = ch.QueueBind(
-		q.Name,        // queue name
-		"login",       // routing key
-		"user_events", // exchange
+		q.Name,             // queue name
+		"",                 // routing key
+		"user_login_event", // exchange
 		false,
 		nil)
 
@@ -103,7 +121,10 @@ func main() {
 
 	go func() {
 		for d := range msgs {
-			log.Printf(" [x] %s", d.Body)
+			err := sendLoginEmailNotification(d.Body)
+			if err != nil {
+				app.logger.Fatalf("Failed to handle queue message: %s", err)
+			}
 		}
 	}()
 
@@ -111,14 +132,35 @@ func main() {
 	<-forever
 }
 
-func initMQConnection(env *rabbitMqEnv) (*amqp.Channel, error) {
+// initMQChannel initializes a channel to RabbitMQ
+func initMQChannel(conn *amqp.Connection) (*amqp.Channel, error) {
+	ch, err := conn.Channel()
+	if err != nil {
+		return nil, err
+	}
+	return ch, nil
+}
+
+// initMQConnection initializes a connection to RabbitMQ
+func initMQConnection(env *rabbitMqEnv) (*amqp.Connection, error) {
 	conn, err := amqp.Dial("amqp://" + env.mqUser + ":" + env.mqPass + "@" + env.mqHost + ":" + env.mqPort + "/")
 	if err != nil {
 		return nil, err
 	}
-	defer conn.Close()
 
-	ch, err := conn.Channel()
+	return conn, nil
+}
 
-	return ch, nil
+func sendLoginEmailNotification(body []byte) error {
+	auth := &Auth{}
+	err := json.Unmarshal(body, &auth)
+	if err != nil {
+		return err
+	}
+
+	// Sleep random time between 1 and 5 seconds
+	time.Sleep(time.Duration(rand.Intn(5-1)+1) * time.Second)
+	log.Printf("Email sent to: %s", auth.User)
+
+	return nil
 }

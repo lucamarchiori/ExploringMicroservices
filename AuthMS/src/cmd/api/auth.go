@@ -112,8 +112,9 @@ func (app *application) loginHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Create a new Auth instance
 	auth := &data.Auth{
-		Token: token,
-		User:  response.Users[0],
+		Token:    token,
+		User:     response.Users[0],
+		Datetime: time.Now(),
 	}
 
 	// Trigger auth event

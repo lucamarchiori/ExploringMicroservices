@@ -15,8 +15,9 @@ import (
 )
 
 type Auth struct {
-	Token string      `json:"string"`
-	User  interface{} `json:"user"`
+	Token    string      `json:"string"`
+	User     interface{} `json:"user"`
+	Datetime time.Time   `json:"datetime"`
 }
 
 type AuthCredentials struct {
@@ -85,13 +86,13 @@ func (auth *Auth) TriggerLoginEvent() error {
 	log.Println("Opened a channel")
 
 	err = ch.ExchangeDeclare(
-		"user_events", // name
-		"direct",      // type
-		true,          // durable
-		false,         // auto-deleted
-		false,         // internal
-		false,         // no-wait
-		nil,           // arguments
+		"user_login_event", // name
+		"fanout",           // type
+		true,               // durable
+		false,              // auto-deleted
+		false,              // internal
+		false,              // no-wait
+		nil,                // arguments
 	)
 
 	if err != nil {
@@ -109,10 +110,10 @@ func (auth *Auth) TriggerLoginEvent() error {
 	}
 
 	err = ch.PublishWithContext(ctx,
-		"user_events", // exchange
-		"login",       // routing key
-		false,         // mandatory
-		false,         // immediate
+		"user_login_event", // exchange
+		"",                 // routing key
+		false,              // mandatory
+		false,              // immediate
 		amqp.Publishing{
 			ContentType: "text/plain",
 			Body:        serialized,
@@ -122,7 +123,7 @@ func (auth *Auth) TriggerLoginEvent() error {
 		return err
 	}
 
-	log.Printf(" [x] Sent %s", serialized)
+	log.Printf("[user_login_event] Sent %s", serialized)
 
 	return nil
 }
