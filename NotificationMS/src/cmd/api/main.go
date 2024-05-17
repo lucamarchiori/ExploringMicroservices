@@ -106,7 +106,7 @@ func main() {
 	msgs, err := ch.Consume(
 		q.Name, // queue
 		"",     // consumer
-		true,   // auto ack
+		false,  // auto ack
 		false,  // exclusive
 		false,  // no local
 		false,  // no wait
@@ -123,8 +123,10 @@ func main() {
 		for d := range msgs {
 			err := sendLoginEmailNotification(d.Body)
 			if err != nil {
+				d.Nack(false, true)
 				app.logger.Fatalf("Failed to handle queue message: %s", err)
 			}
+			d.Ack(false)
 		}
 	}()
 
