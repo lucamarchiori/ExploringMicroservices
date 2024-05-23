@@ -33,6 +33,11 @@ spec:
             value: "5432"
       imagePullSecrets:
       - name: k8s-gcloud
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
 ---
 # ----- NODE PORT SERVICE -----
 apiVersion: v1
