@@ -31,6 +31,12 @@ spec:
             value: users-db-cluster-ip-service
           - name: POSTGRES_PORT
             value: "5432"
+        livenessProbe:
+          httpGet:
+            path: /users-ms/healthcheck
+            port: 4000
+          initialDelaySeconds: 5
+          periodSeconds: 5
       imagePullSecrets:
       - name: k8s-gcloud
   strategy:
