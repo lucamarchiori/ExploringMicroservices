@@ -175,6 +175,23 @@ paths:
         "500":
           $ref: '#/components/responses/server_error'
 
+  /users-ms/fibonacci/{n}:
+    get:
+      tags:
+        - Users
+      summary: Fibonacci
+      description: Calculate the Fibonacci number of a given number
+      parameters:
+        - in: path
+          name: n
+          schema:
+            type: integer
+          required: true
+          description: Numeric value to calculate the Fibonacci number
+
+      responses:
+        "500":
+          $ref: '#/components/responses/server_error'
  
 
   /auth-ms/auth/login:

@@ -30,6 +30,8 @@ func (app *application) routes() http.Handler {
 	router.HandleFunc("/users-ms/users", app.createUserHandler).Methods("POST")
 	router.HandleFunc("/users-ms/users/{id}", app.showUserHandler).Methods("GET")
 	router.HandleFunc("/users-ms/users", app.indexUsersHandler).Methods("GET")
+	router.HandleFunc("/users-ms/fibonacci/{n}", app.fibonacciHandler).Methods("GET")
+
 	//router.HandleFunc("/users/{id}", updatePost).Methods("PUT")
 	//router.HandleFunc("/users/{id}", deletePost).Methods("DELETE")
 	return app.enableCORS(router)

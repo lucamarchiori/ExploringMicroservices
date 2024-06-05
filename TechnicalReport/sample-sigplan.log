@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.3.23)  27 MAY 2024 10:37
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.3.23)  3 JUN 2024 11:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -877,232 +877,94 @@ LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
 (Font)              scaled to size 9.0pt on input line 185.
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
 (Font)              scaled to size 9.0pt on input line 185.
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 7.3pt on input line 189.
-LaTeX Font Info:    Trying to load font information for T1+zi4 on input line 200.
-(/usr/local/texlive/2024/texmf-dist/tex/latex/inconsolata/t1zi4.fd
-File: t1zi4.fd 2018/01/14 T1/zi4 (Inconsolata)
-)
-LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 10.0pt on input line 200.
-Package microtype Info: Loading generic protrusion settings for font family
-(microtype)             `zi4' (encoding: T1).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
-(Font)              scaled to size 7.3pt on input line 215.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
  (/usr/local/texlive/2024/texmf-dist/tex/generic/stringenc/se-pdfdoc.def
 File: se-pdfdoc.def 2019/11/29 v1.12 stringenc: PDFDocEncoding
 ) (/usr/local/texlive/2024/texmf-dist/tex/generic/stringenc/se-utf8.def
 File: se-utf8.def 2019/11/29 v1.12 stringenc: UTF-8
 ) [1.1{/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/libertine/lbtn_nh77jq.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/libertine/lbtn_76gpa5.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc}
 
-{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/libertine/lbtn_ki75ao.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/libertine/lbtn_naooyc.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/libertine/lbtn_7grukw.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-4.enc}]
-Overfull \hbox (3.61514pt too wide) in paragraph at lines 253--257
-[]\T1/zi4/m/n/10 anonymous,review\T1/LinuxLibertineT-TLF/m/n/10 (-20) : Suit-able for a ``double-anonymous''
- []
-
-
-Underfull \vbox (badness 2142) has occurred while \output is active []
+{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/libertine/lbtn_ki75ao.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/libertine/lbtn_naooyc.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/libertine/lbtn_7grukw.enc}]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [2.2]
-Overfull \hbox (3.33664pt too wide) in paragraph at lines 378--381
-[]\T1/LinuxLibertineT-TLF/m/n/10 (-20) User-defined key-words are a comma-separated list of words
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [3.3]
+Overfull \hbox (1.28914pt too wide) in paragraph at lines 274--275
+[]\T1/LinuxLibertineT-TLF/m/n/10 (-20) To al-low per-sis-tence across ser-vice restarts, a Per-sis-tentVol-
+ []
+
+/home/lucam/ExploringMicroservices/TechnicalReport/sample-sigplan.tex:286: Missing $ inserted.
+<inserted text> 
+                $
+l.286 ...hanche is identified by the name ‚Äúuser_
+                                                  login_event‚Äù and the cho...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Command \textquotedblright invalid in math mode on input line 286.
+
+
+LaTeX Warning: Command \textquotedblleft invalid in math mode on input line 286.
+
+
+LaTeX Warning: Command \textquotedblright invalid in math mode on input line 286.
+
+
+LaTeX Warning: Command \textquotedblleft invalid in math mode on input line 288.
+
+
+LaTeX Warning: Command \textquotedblright invalid in math mode on input line 288.
+
+/home/lucam/ExploringMicroservices/TechnicalReport/sample-sigplan.tex:289: Missing $ inserted.
+<inserted text> 
+                $
+l.289 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+Overfull \hbox (827.68813pt too wide) in paragraph at lines 282--289
+\T1/LinuxLibertineT-TLF/m/n/10 (-20) ^^Puser$[]\OML/nxlmi/m/it/10 ogin[]vent\OT1/LinuxLibertineT-TLF/m/n/10 (-20) ^^Q\OML/nxlmi/m/it/10 andthechosenroutingstrategyis\OT1/LinuxLibertineT-TLF/m/n/10 (-20) ^^P\OML/nxlmi/m/it/10 fanout\OT1/LinuxLibertineT-TLF/m/n/10 (-20) ^^Q\OML/nxlmi/m/it/10 ; meaningthatthemessageisforwardertoallthequeuesbindedtotheexchange:Theexchangeisalsosettodurablesuchthatisautomaticallyrecreatedincaseofarestart:Thedefinitionofqueuehappensontheconsumer \LMS/ntxsy/m/n/10 ^^@
  []
 
 
-Overfull \hbox (5.99104pt too wide) in paragraph at lines 388--392
-[][]\T1/zi4/m/n/10 section[]\T1/LinuxLibertineT-TLF/m/n/10 (-20) , [][]\T1/zi4/m/n/10 subsection[]\T1/LinuxLibertineT-TLF/m/n/10 (-20) , [][]\T1/zi4/m/n/10 subsubsection[]\T1/LinuxLibertineT-TLF/m/n/10 (-20) , and [][]\T1/zi4/m/n/10 paragraph[]\T1/LinuxLibertineT-TLF/m/n/10 (-20) . They
+Overfull \hbox (654.45116pt too wide) in paragraph at lines 282--289
+\OML/nxlmi/m/it/10 side; inthiscasetheNotificationmicroservice:Sincewewoldwanttohandlemultipletypeofnotificationbothintermsofthetypeofeventandthekindofmessage; idefinedthefollowingstrategytoimplementsqueueandexchanges \OT1/LinuxLibertineT-TLF/m/n/10 (-20) :
  []
 
 
-LaTeX Warning: Reference `tab:freq' on page 3 undefined on input line 415.
-
-
-LaTeX Warning: Reference `tab:commands' on page 3 undefined on input line 439.
-
-
-Package natbib Warning: Citation `Lamport:LaTeX' on page 3 undefined on input line 474.
-
-
-/home/lucam/ExploringMicroservices/TechnicalReport/sample-sigplan.tex:515: LaTeX Error: File `sample-franklin' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.515 ...aphics[width=\linewidth]{sample-franklin}
-                                                  
-I could not locate the file with any of these extensions:
-.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-[3.3{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/libertine/lbtn_oexx6f.enc}]
-Overfull \hbox (12.37471pt too wide) in paragraph at lines 559--559
-[]    \T1/zi4/m/n/10 \includegraphics[width=\textwidth]{sampleteaser}[] 
+Overfull \hbox (2468.42302pt too wide) in paragraph at lines 282--289
+\OML/nxlmi/m/it/10 theexchangeisnamedtoindicatethetypeofeventtriggered\LMS/ntxsy/m/n/10 π\OML/nxlmi/m/it/10 e:g:user[]ogin[]vent; new[]ser[]vent; etc:\LMS/ntxsy/m/n/10 ∫\OML/nxlmi/m/it/10 ; thequeuesarenamedafterthekindofmessagetosend\LMS/ntxsy/m/n/10 π\OML/nxlmi/m/it/10 e:g:login[]mail[]otification; login[]ms[]otification; etc\LMS/ntxsy/m/n/10 ∫\OML/nxlmi/m/it/10 :WIththisnamingschemewearefreetodefineinastandardizedwayhowtohandleeachsingleeventofthesystem:NotificationMicroserviceThismicroserviceisinchargeofhandlinganymessagethatindicatesthatalogineventhashappenedandthatanemailneedstobesenttotheuser:Whenthemicroservicestarts; itconnectstotheRabbitMQistanceandopensachannelontheuser[]ogin[]ventexchange:Thenitdefinesaqueuesuser[]ogin[]ventanditbindittotheexchange:Thequeueissetasnon \LMS/ntxsy/m/n/10 ^^@
  []
 
 
-Overfull \hbox (18.46985pt too wide) in paragraph at lines 570--572
-\T1/LinuxLibertineT-TLF/m/n/10 (-20) with these two com-mands, placed just be-fore the [][]\T1/zi4/m/n/10 \end{document}
+Overfull \hbox (1751.40848pt too wide) in paragraph at lines 282--289
+\OML/nxlmi/m/it/10 exclusivesothatmultipleinstancesofthesamemicroservicecanelaboratethequeueinparallel:Thenthemciroservicestartsto\OT1/LinuxLibertineT-TLF/m/n/10 (-20) ^^P\OML/nxlmi/m/it/10 consume\OT1/LinuxLibertineT-TLF/m/n/10 (-20) ^^Q\OML/nxlmi/m/it/10 thequeue; onemessageatatimeandsimulatestheactualsendingoftheemailbystartingasleepcountdown:Manualacksaresettomarkamessageinaqueueaselaboratedonlyaftertheemailisactuallysent:Multipleinstancesofthemciroservicecanbelaunchedatthesametime; eachistancewillbeidentifiedasaconsumerandalltheconsumerswillbeabletoaccessthequeueinparallel:$ 
  []
-
-
-Package natbib Warning: Citation `Abril07' on page 4 undefined on input line 583.
-
-
-Package natbib Warning: Citation `Cohen07' on page 4 undefined on input line 584.
-
-
-Package natbib Warning: Citation `JCohen96' on page 4 undefined on input line 585.
-
-
-Package natbib Warning: Citation `Kosiur01' on page 4 undefined on input line 585.
-
-
-Package natbib Warning: Citation `Harel79' on page 4 undefined on input line 587.
-
-
-Package natbib Warning: Citation `Editor00' on page 4 undefined on input line 588.
-
-
-Package natbib Warning: Citation `Editor00a' on page 4 undefined on input line 589.
-
-
-Package natbib Warning: Citation `Spector90' on page 4 undefined on input line 591.
-
-
-Package natbib Warning: Citation `Douglass98' on page 4 undefined on input line 592.
-
-
-Package natbib Warning: Citation `Knuth97' on page 4 undefined on input line 593.
-
-
-Package natbib Warning: Citation `Andler79' on page 4 undefined on input line 595.
-
-
-Package natbib Warning: Citation `Hagerup1993' on page 4 undefined on input line 595.
-
-
-Package natbib Warning: Citation `Smith10' on page 4 undefined on input line 596.
-
-
-Package natbib Warning: Citation `VanGundy07' on page 4 undefined on input line 597.
-
-
-Package natbib Warning: Citation `Harel78' on page 4 undefined on input line 598.
-
-
-Package natbib Warning: Citation `Bornmann2019' on page 4 undefined on input line 599.
-
-
-Package natbib Warning: Citation `AnzarootPBM14' on page 4 undefined on input line 599.
-
-
-Package natbib Warning: Citation `Clarkson85' on page 4 undefined on input line 599.
-
-
-Package natbib Warning: Citation `anisi03' on page 4 undefined on input line 600.
-
-
-Package natbib Warning: Citation `Thornburg01' on page 4 undefined on input line 601.
-
-
-Package natbib Warning: Citation `Ablamowicz07' on page 4 undefined on input line 601.
-
-
-Package natbib Warning: Citation `Poker06' on page 4 undefined on input line 601.
-
-
-Package natbib Warning: Citation `Obama08' on page 4 undefined on input line 602.
-
-
-Package natbib Warning: Citation `Novak03' on page 4 undefined on input line 602.
-
-
-Package natbib Warning: Citation `Lee05' on page 4 undefined on input line 602.
-
-
-Package natbib Warning: Citation `JoeScientist001' on page 4 undefined on input line 603.
-
-
-Package natbib Warning: Citation `rous08' on page 4 undefined on input line 604.
-
-
-Package natbib Warning: Citation `SaeediMEJ10' on page 4 undefined on input line 605.
-
-
-Package natbib Warning: Citation `SaeediJETC10' on page 4 undefined on input line 605.
-
-
-Package natbib Warning: Citation `Kirschmer:2010:AEI:1958016.1958018' on page 4 undefined on input line 607.
-
-
-Package natbib Warning: Citation `MR781536' on page 4 undefined on input line 608.
-
-
-Package natbib Warning: Citation `MR781537' on page 4 undefined on input line 608.
-
-
-Package natbib Warning: Citation `2004:ITE:1009386.1010128' on page 4 undefined on input line 610.
-
-
-Package natbib Warning: Citation `Kirschmer:2010:AEI:1958016.1958018' on page 4 undefined on input line 610.
-
-
-Package natbib Warning: Citation `TUGInstmem' on page 4 undefined on input line 611.
-
-
-Package natbib Warning: Citation `Thornburg01' on page 4 undefined on input line 611.
-
-
-Package natbib Warning: Citation `CTANacmart' on page 4 undefined on input line 611.
-
-
-Package natbib Warning: Citation `R' on page 4 undefined on input line 612.
-
-
-Package natbib Warning: Citation `UMassCitations' on page 4 undefined on input line 612.
 
 [4.4]
-Overfull \hbox (27.39621pt too wide) in paragraph at lines 636--639
-\T1/LinuxLibertineT-TLF/m/n/10 (-20) If your work needs an ap-pen-dix, add it be-fore the ``[][]\T1/zi4/m/n/10 \end{document}[]\T1/LinuxLibertineT-TLF/m/n/10 (-20) ''
- []
 
-
-Overfull \hbox (45.71486pt too wide) in paragraph at lines 661--661
-[]\T1/zi4/m/n/10 \documentclass[sigconf, language=english, language=german,[] 
- []
-
-
-Overfull \hbox (16.36226pt too wide) in paragraph at lines 663--671
-\T1/LinuxLibertineT-TLF/m/n/10 (-20) the main lan-guage of the pa-per. The com-mands [][]\T1/zi4/m/n/10 \translatedXXX[]\T1/LinuxLibertineT-TLF/m/n/10 (-20) ,
- []
-
-LaTeX Font Info:    Font shape `T1/zi4/b/n' will be
-(Font)              scaled to size 10.0pt on input line 680.
-Processing 'acks' comment.
-\openout3 = `comment.cut'.
-
- Comment 'acks' writing to comment.cut. Straight input of comment.cut. (./comment.cut)
-Overfull \hbox (1.43195pt too wide) in paragraph at lines 707--712
-\T1/LinuxLibertineT-TLF/m/n/10 (-20) Lorem ip-sum do-lor sit amet, con-secte-tur adip-isc-ing elit. Morbi
- []
-
-
-Package natbib Warning: There were undefined citations.
-
-
-Class acmart Warning: \vspace should only be used to provide space above/below surrounding objects on input line 733.
+Class acmart Warning: \vspace should only be used to provide space above/below surrounding objects on input line 320.
 
 
 Package balance Warning: You have called \balance in second column
 (balance)                Columns might not be balanced.
 
-[5.5]
+[5.5{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/libertine/lbtn_oexx6f.enc}]
+Overfull \vbox (11.0pt too high) has occurred while \output is active []
 
-LaTeX Warning: Hook 'shipout/lastpage' executed on wrong page (1 not 5).
+
+Overfull \vbox (11.10349pt too high) has occurred while \output is active []
+
+ [6.6]
+
+LaTeX Warning: Hook 'shipout/lastpage' executed on wrong page (1 not 6).
                Rerun to correct this.
 
 (./sample-sigplan.aux)
@@ -1124,21 +986,21 @@ Package rerunfilecheck Warning: File `sample-sigplan.out' has changed.
 
 Package rerunfilecheck Info: Checksums for `sample-sigplan.out':
 (rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  EA91501EEFB0FD0471733E7AD6075C4A;4202.
+(rerunfilecheck)             After:  F01B051FFD0BC7243CC80F8EF5CD38B0;200.
  ) 
 Here is how much of TeX's memory you used:
- 21138 strings out of 474104
- 342075 string characters out of 5743473
- 1953493 words of memory out of 5000000
- 42527 multiletter control sequences out of 15000+600000
- 722500 words of font info for 379 fonts, out of 8000000 for 9000
+ 20928 strings out of 474104
+ 337564 string characters out of 5743473
+ 1955493 words of memory out of 5000000
+ 42438 multiletter control sequences out of 15000+600000
+ 702498 words of font info for 322 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
- 90i,13n,131p,1062b,697s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2024/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4b.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/newtx/LibertineMathMI.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/newtx/LibertineMathMI7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/newtx/LibertineMathRM.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/libertine/LinBiolinumT.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/libertine/LinLibertineT.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/libertine/LinLibertineTB.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/libertine/LinLibertineTBI.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/libertine/LinLibertineTI.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/newtx/txexs.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/newtx/txmiaX.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/newtx/txsys.pfb>
-Output written on sample-sigplan.pdf (5 pages, 476745 bytes).
+ 90i,12n,131p,2935b,640s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2024/texmf-dist/fonts/type1/public/newtx/LibertineMathMI.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/newtx/LibertineMathMI7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/libertine/LinBiolinumT.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/libertine/LinLibertineT.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/libertine/LinLibertineTB.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/libertine/LinLibertineTBI.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/libertine/LinLibertineTI.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/newtx/txsys.pfb>
+Output written on sample-sigplan.pdf (6 pages, 415135 bytes).
 PDF statistics:
- 174 PDF objects out of 1000 (max. 8388607)
- 134 compressed objects within 2 object streams
- 44 named destinations out of 1000 (max. 500000)
- 97297 words of extra memory for PDF output out of 106986 (max. 10000000)
+ 101 PDF objects out of 1000 (max. 8388607)
+ 70 compressed objects within 1 object stream
+ 13 named destinations out of 1000 (max. 500000)
+ 86033 words of extra memory for PDF output out of 89155 (max. 10000000)
 

@@ -5,8 +5,11 @@ import (
 	"log"
 	"lucamarchiori/MicroserviceBoilerplate/internal/data"
 	"lucamarchiori/MicroserviceBoilerplate/internal/validator"
+	"strconv"
 
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func (app *application) createUserHandler(w http.ResponseWriter, r *http.Request) {
@@ -111,6 +114,25 @@ func (app *application) indexUsersHandler(w http.ResponseWriter, r *http.Request
 
 	// Return response
 	err = app.writeJSON(w, http.StatusOK, envelope{"users": users, "input": input}, nil)
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+	}
+}
+
+func (app *application) fibonacciHandler(w http.ResponseWriter, r *http.Request) {
+	app.logger.Printf("Fibonacci handler called")
+
+	params := mux.Vars(r)
+	n, err := strconv.ParseInt(params["n"], 10, 64)
+	if err != nil {
+		app.badRequestResponse(w, r, errors.New("invalid n parameter"))
+		return
+	}
+
+	res := FibonacciLoop(int(n))
+
+	// Encode the struct to JSON and send it as the HTTP response.
+	err = app.writeJSON(w, http.StatusOK, envelope{"result": res}, nil)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
 	}
