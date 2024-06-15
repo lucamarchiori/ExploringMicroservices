@@ -43,11 +43,49 @@
 
 
 \section{Report corrections}
+
+
+\begin{frame}{My response to the "B" comments}
+	\label{index_1}
+	To keep the report within the 10 pages limit, I had to cut some sections relative to theoretical definitions.
+		\begin{itemize}
+			\item \hyperlink{microservices_definitions}{Microservices definitions}
+			\item \hyperlink{rest}{REST architectural style}
+			\item \hyperlink{swagger_openapi}{What are Swagger and OpenAPI}
+			\item \hyperlink{golang}{Why choosing GO as programming language}
+			\item \hyperlink{latest_tag}{Alternative solution to the "latest" tag issue}
+			\item \hyperlink{common_ms}{The choice of implementing common and basic microservices}
+		\end{itemize}
+
+		Slides are available in the presentation but I prefer to focus on more important topics.
+	\end{frame}
+
+	\begin{frame}{My response to the "B" comments}
+		\label{index_2}
+		The focus of the presentation is on:
+			\begin{itemize}
+				\item Why virtualization, abstraction and orchestration
+				\item How abstraction works in containerization
+				\item The notion of business domain separation
+				\item The separation between connection state and application state
+				\item The problems encountered with the Horizontal Pod Autoscaler
+			\end{itemize}
+		\end{frame}
+
+\begin{frame}{Missing bibliography}
+
+\end{frame}
+
+
 \section{Take-home message}
 \begin{frame}{Take-home message}
 \end{frame}
 \section{Learning outcome}
 \begin{frame}{Learning outcome}
+	\begin{itemize}
+		\item \textbf{System design}: 
+		\item \textbf{Technologies}: Docker, Kubernetes
+	\end{itemize}
 \end{frame}
 \section{CFU evaluation}
 \begin{frame}{CFU evaluation}
@@ -86,6 +124,89 @@
 	\begin{center}
 		\Huge{\textcolor{white}{Thank you for your attention!}}
 	\end{center}
+\end{frame}
+
+\setbeamercolor{background canvas}{bg=white}
+\section{More}
+\begin{frame}{Microservices definitions}
+	\label{microservices_definitions}
+	\begin{block}{}
+		“Microservices are \textbf{independently} releasable services that are modeled around a \textbf{business domain}. A service encapsulates functionality and makes it accessible to other services via \textbf{networks}” \footnote{Sam Newman, Building Microservices}
+	\end{block}
+	\begin{block}{}
+		“A microservice is an architectural pattern that arranges an application as a collection of \textbf{loosely coupled}, \textbf{fine-grained services}, communicating through lightweight protocols” \footnote{Martin Fowler, Microservices}
+	\end{block}
+
+\hyperlink{index_1}{\beamerbutton{Back to index}}
+\end{frame}
+
+\begin{frame}{REST architectural style}
+	\begin{block}{}
+		REST (Representational State Transfer) is a web architecture style using standard HTTP methods (GET, POST, PUT, DELETE) to interact with resources via URLs.
+	\end{block}
+	\begin{itemize}
+		\item POST: /users (create a new user)
+		\item GET: /users/{id} (get a user by id)
+		\item GET: /users (get all users)
+		\item PUT: /users/{id} (update a user by id)
+		\item DELETE: /users/{id} (delete a user by id)
+	\end{itemize}
+	
+	\label{rest}
+\hyperlink{index_1}{\beamerbutton{Back to index}}
+\end{frame}
+
+\begin{frame}{Why GO as programming language}
+	\label{golang}
+	\begin{block}{}
+		Microservices are language-agnostic, so they can be written in any language as long as they support necessary communication protocols.
+		\end{block}
+		It is also possible to have different microservices written in different languages as long as they can communicate with each other.
+		\newline \newline \newline
+		GO was chosen for the project because it has native support for web server making development easier and faster.  \footnote{Thanks to the concurrency features of the language, and the native support for web standards, both Docker and Kubernetes are written in GO.}
+\newline
+\hyperlink{index_1}{\beamerbutton{Back to index}}
+\end{frame}
+
+\begin{frame}{Solution to the "latest" tag issue}
+	\label{latest_tag}
+	The "latest" tag leads to:
+	\begin{itemize}
+		\item Unpredictability
+		\item Inconsistent updates
+		\item Difficult in debugging and replication
+	\end{itemize}
+	\begin{block}{}
+		Instead, use tags consistent with a version control strategy to ensure stability and traceability.
+	\end{block}
+	This approach allows for precise control over which image version is deployed, facilitating easier rollbacks and consistent environments across development, testing, and production stages.
+\hyperlink{index_1}{\beamerbutton{Back to index}}
+\end{frame}
+
+\begin{frame}{Common and basic microservices}
+	\label{common_ms}
+	\begin{block}{}
+		Why implementing common and basic microservices such as users, auth, and notifications?
+	\end{block}
+	\begin{itemize}
+		\item The goal was to learn about orchestration, not to develop impressive features.
+		\item I didn't want to lose time by thinking of exceptional use cases.
+		\item Those are component that I could find in any future project.
+	\end{itemize}
+\hyperlink{index_1}{\beamerbutton{Back to index}}
+\end{frame}
+
+\begin{frame}{What are Swagger and OpenAPI}
+	\label{swagger_openapi}
+	\begin{block}{Swagger}
+		Swagger is a set of open-source tools built around the OpenAPI Specification that can help in design, build, document and consume REST APIs.
+\end{block}
+\begin{block}{OpenAPI}
+		OpenAPI Specification is a specification for building APIs. It is a language-agnostic specification that describes the structure of REST APIs.
+\end{block}
+In the project i used OpenAPI to define the API of the application and Swagger to have a GUI for reading the API documentation and test the endpoints.
+\newline
+\hyperlink{index_1}{\beamerbutton{Back to index}}
 \end{frame}
 
 \end{document}
