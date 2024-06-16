@@ -5,7 +5,7 @@ info:
   description: Project to explore microservices architecture - Runtimes For Concurrency and Distribution - UniPd
 
 servers:
-  - url: http://192.168.59.100
+  - url: http://192.168.59.102
     description: Local Server
   - url: http://192.168.49.2
     description: Local Server

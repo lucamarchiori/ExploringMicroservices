@@ -45,22 +45,70 @@
 \section{Report corrections}
 
 
+\begin{frame}{Missing notions}
+	After reading the comments, I realized that I missed some notions in the report:
+	\begin{itemize}
+		\item Theoretical definitions (Microservices, REST, ...)
+		\item Tool descriptions (Swagger, OpenAPI, RabbitMQ, ...)
+		\item Components behavior (Nodeport, Ingress, ...)
+	\end{itemize}
+		
+	In the earliest version of the report I included these sections, but I had to cut them to respect the 10 pages limit.
+	\newline
+	\newline
+	As a technical report, I focused more on explaining the project itself and the implementation details.
+\end{frame}
+
+
+\begin{frame}
+	\begin{center}
+		\huge{My responses to the "B" comments}
+	\end{center}
+\end{frame}
+
+
+\begin{frame}{The HPA problem}
+The Horizontal Pod Autoscaler (HPA) was not working as expected: Pods were not scaling up when multiple requests were sent to the service.
+\begin{block}{}
+	\textbf{My mistake:} I stopped looking for a solution after the first assumption that made sense to me.
+\end{block}
+New debugging session:
+\begin{figure}
+	\centering
+	\includegraphics[width=1\linewidth]{./images/hpaProblem.png}
+\end{figure}
+Something seems to be wrong with the metrics-server. The HPA is not able to retrieve the metrics from the metrics-server.
+\end{frame}
+
+\begin{frame}{The HPA problem}
+	
+\end{frame}
+	
+
+\begin{frame}{Updates}
+	\textbf{Microservices updates are easy or not?}
+	In the report i begin by saying that microservices updates are hard but then I show that they are pretty easy.
+	\begin{itemize}
+		\item Without orchestration, updates are very challenging.
+		\item With Kubernetes are more manageable but still require proper planning.
+	\end{itemize}
+\end{frame}
+\begin{frame}{Updates}
+	The "latest" tag leads to:
+	\begin{itemize}
+		\item Unpredictability
+		\item Inconsistent updates
+		\item Difficult in debugging and replication
+	\end{itemize}
+	\begin{block}{}
+		Instead, use tags consistent with a version control strategy to ensure stability and traceability.
+	\end{block}
+	This approach allows for precise control over which image version is deployed, facilitating easier rollbacks and consistent environments across development, testing, and production stages.
+\end{frame}
+
+
+
 \begin{frame}{My response to the "B" comments}
-	\label{index_1}
-	To keep the report within the 10 pages limit, I had to cut some sections relative to theoretical definitions.
-		\begin{itemize}
-			\item \hyperlink{microservices_definitions}{Microservices definitions}
-			\item \hyperlink{rest}{REST architectural style}
-			\item \hyperlink{swagger_openapi}{What are Swagger and OpenAPI}
-			\item \hyperlink{golang}{Why choosing GO as programming language}
-			\item \hyperlink{latest_tag}{Alternative solution to the "latest" tag issue}
-			\item \hyperlink{common_ms}{The choice of implementing common and basic microservices}
-		\end{itemize}
-
-		Slides are available in the presentation but I prefer to focus on more important topics.
-	\end{frame}
-
-	\begin{frame}{My response to the "B" comments}
 		\label{index_2}
 		The focus of the presentation is on:
 			\begin{itemize}
@@ -70,7 +118,7 @@
 				\item The separation between connection state and application state
 				\item The problems encountered with the Horizontal Pod Autoscaler
 			\end{itemize}
-		\end{frame}
+\end{frame}
 
 \begin{frame}{Missing bibliography}
 
@@ -79,12 +127,20 @@
 
 \section{Take-home message}
 \begin{frame}{Take-home message}
+	% Quale sia, secondo te il principale "take-home message" dell'intera prova d'esame, per un lettore terzo, in relazione ai temi di RCD.
+	\begin{block}{}
+		Microservices are much more complex than traditional monolithic applications. They require an experienced architectural view because even if tools are available to simplify the orchestration, the complexity of the system requires a deep understanding of the underlying concepts of distributed systems.
+	\end{block}
 \end{frame}
 \section{Learning outcome}
 \begin{frame}{Learning outcome}
+	% Quale sia stato il tuo personale "learning outcome", per te stesso come studente, rispetto ai temi di RCD da questa prova d'esame.
+	These are the key concepts I learned both from the course and the project:
 	\begin{itemize}
-		\item \textbf{System design}: 
-		\item \textbf{Technologies}: Docker, Kubernetes
+		% Kubernetes and DOcker and stuff sono molto belli, ma senza una base teorica non si va da nessuna parte. Sento dai miei colleghi che molti li usano perchè vanno di moda ma non sanno realmente cosa stanno facendo.
+		\item Tools and technologies are worthless without a clear understanding of the underlying concepts.
+		\item Abstraction and virtualization are much more important than I thought. %Senza questi, internet non esisterebbe.
+		\item Microservices are interesting but the choice of implementing them should be driven by actual needs, not just because they are trendy.
 	\end{itemize}
 \end{frame}
 \section{CFU evaluation}
@@ -118,6 +174,17 @@
 	\end{block}
 \end{frame}
 
+\begin{frame}{Missing definitions}
+	\label{index_1}
+	Extra slides for missing definitions:
+		\begin{itemize}
+			\item \hyperlink{microservices_definitions}{Microservices definitions}
+			\item \hyperlink{rest}{REST architectural style}
+			\item \hyperlink{swagger_openapi}{What are Swagger and OpenAPI}
+			\item \hyperlink{golang}{Why choosing GO as programming language}
+			\item \hyperlink{common_ms}{The choice of implementing common and basic microservices}
+		\end{itemize}
+\end{frame}
 
 \setbeamercolor{background canvas}{bg=red_unipd}
 \begin{frame}{}
@@ -165,21 +232,6 @@
 		\newline \newline \newline
 		GO was chosen for the project because it has native support for web server making development easier and faster.  \footnote{Thanks to the concurrency features of the language, and the native support for web standards, both Docker and Kubernetes are written in GO.}
 \newline
-\hyperlink{index_1}{\beamerbutton{Back to index}}
-\end{frame}
-
-\begin{frame}{Solution to the "latest" tag issue}
-	\label{latest_tag}
-	The "latest" tag leads to:
-	\begin{itemize}
-		\item Unpredictability
-		\item Inconsistent updates
-		\item Difficult in debugging and replication
-	\end{itemize}
-	\begin{block}{}
-		Instead, use tags consistent with a version control strategy to ensure stability and traceability.
-	\end{block}
-	This approach allows for precise control over which image version is deployed, facilitating easier rollbacks and consistent environments across development, testing, and production stages.
 \hyperlink{index_1}{\beamerbutton{Back to index}}
 \end{frame}
 

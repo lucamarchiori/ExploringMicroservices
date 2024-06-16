@@ -20,6 +20,11 @@ spec:
         image: europe-west3-docker.pkg.dev/exploringmicroservices/exploringmicroservices/users-ms:latest
         ports:
         - containerPort: 4000
+        resources:
+          requests:
+            cpu: "0.5"
+          limits:
+            cpu: "1 "
         env:
           - name: POSTGRES_DB
             value: postgres
@@ -74,3 +79,48 @@ spec:
     - protocol: TCP
       port: 4000
       targetPort: 4000
+---
+# ----- AUTO SCALING -----
+
+# apiVersion: autoscaling/v2
+# kind: HorizontalPodAutoscaler
+# metadata:
+#   name: users-ms-hpa
+# spec:
+#   scaleTargetRef:
+#     apiVersion: apps/v1
+#     kind: Deployment
+#     name: users-ms-deployment
+#   minReplicas: 1
+#   maxReplicas: 10
+#   metrics:
+#   - type: Object
+#     object:
+#       metric:
+#         name: requests-per-second
+#       describedObject:
+#         apiVersion: networking.k8s.io/v1
+#         kind: Ingress
+#         name: main-route
+#       target:
+#         type: Value
+#         value: "100"
+
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: users-ms-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: users-ms-deployment
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
