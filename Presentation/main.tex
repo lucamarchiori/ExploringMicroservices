@@ -80,8 +80,39 @@ New debugging session:
 Something seems to be wrong with the metrics-server. The HPA is not able to retrieve the metrics from the metrics-server.
 \end{frame}
 
-\begin{frame}{The HPA problem}
-	
+\begin{frame}[fragile]{The HPA problem}
+Checking with the HPA logs:
+	\begin{lstlisting}{language=bash}
+		horizontal-pod-autoscaler: failed to get cpu utilization: unable to get metrics for resource cpu: no metrics returned from resource metrics API
+		horizontal-pod-autoscaler: invalid metrics (1 invalid out of 1), first error is: failed to get cpu resource metric value: failed to get cpu utilization: unable to get metrics for resource cpu: no metrics returned from resource metrics API
+	\end{lstlisting}
+
+	\begin{block}{}
+		Problem identified: the metrics-server is not able to retrieve the metrics from the pods.
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{The HPA problem}
+	After some debugging sessions, I found the problems:
+	\begin{itemize}
+		\item Minikube needs to be started with "--extra-config=kubelet.housekeeping-interval=10s" to avoid caching issues with the metrics-server.
+		\item Missing configuration in the users-ms deployment for specifying the resource requests and limits.
+	\end{itemize}
+
+	Furthermore, instead of deploying the metrics-server from command line, I moved its deployment to a separate file to better manage the configuration.
+\end{frame}
+
+\begin{frame}[fragile]{The HPA problem}
+	\begin{figure}
+		\centering
+		\includegraphics[width=1\linewidth]{./images/hpaFix1.png}
+	\end{figure}
+	After starting the load test again, the HPA was able to scale up the pods as expected.
+	\begin{figure}
+		\centering
+		\includegraphics[width=1\linewidth]{./images/hpaFix3.png}
+	\end{figure}
+	Minikube limitation: no matter the number of pods, the host CPU is the same, so the performance is limited.
 \end{frame}
 	
 
