@@ -66,6 +66,27 @@
 	\end{center}
 \end{frame}
 
+\begin{frame}{The "basic" microservices choice}
+	\label{common_ms}
+	\begin{block}{}
+		Why implementing common and basic microservices such as users, auth, and notifications?
+	\end{block}
+	\begin{itemize}
+		\item The goal was to learn more about orchestration, not to develop impressive features.
+		\item I didn't want to lose time by thinking of exceptional use cases.
+		\item Those are component that I could find in any future project.
+	\end{itemize}
+	That's why I decided to implement the first basic microservices that came to my mind. 
+\end{frame}
+
+\begin{frame}{The "basic" microservices choice}
+	The results of my approach:
+	\begin{itemize}
+		\item I focused more on the orchestration challenges and less on the toy examples.
+		\item By dealing with a business domain that is easy to understand I kept a good progress pace.
+		\item I could choose the next components to implement not based on the examples but on the area of interest that I wanted to explore.
+	\end{itemize}
+\end{frame}
 
 \begin{frame}{The HPA problem}
 The Horizontal Pod Autoscaler (HPA) was not working as expected: Pods were not scaling up when multiple requests were sent to the service.
@@ -136,18 +157,6 @@ Checking with the HPA logs:
 	This approach allows for precise control over which image version is deployed, facilitating easier rollbacks and consistent environments across development, testing, and production stages.
 \end{frame}
 
-\begin{frame}{My response to the "B" comments}
-		\label{index_2}
-		The focus of the presentation is on:
-			\begin{itemize}
-				\item Why virtualization, abstraction and orchestration
-				\item How abstraction works in containerization
-				\item The notion of business domain separation
-				\item The separation between connection state and application state
-				\item The problems encountered with the Horizontal Pod Autoscaler
-			\end{itemize}
-\end{frame}
-
 \section{Take-home message}
 \begin{frame}{Take-home message}
 	% Quale sia, secondo te il principale "take-home message" dell'intera prova d'esame, per un lettore terzo, in relazione ai temi di RCD.
@@ -205,7 +214,6 @@ Checking with the HPA logs:
 			\item \hyperlink{rest}{REST architectural style}
 			\item \hyperlink{swagger_openapi}{What are Swagger and OpenAPI}
 			\item \hyperlink{golang}{Why choosing GO as programming language}
-			\item \hyperlink{common_ms}{The choice of implementing common and basic microservices}
 		\end{itemize}
 \end{frame}
 
@@ -283,19 +291,6 @@ Checking with the HPA logs:
 		\newline \newline \newline
 		GO was chosen for the project because it has native support for web server making development easier and faster.  \footnote{Thanks to the concurrency features of the language, and the native support for web standards, both Docker and Kubernetes are written in GO.}
 \newline
-\hyperlink{index_1}{\beamerbutton{Back to index}}
-\end{frame}
-
-\begin{frame}{Common and basic microservices}
-	\label{common_ms}
-	\begin{block}{}
-		Why implementing common and basic microservices such as users, auth, and notifications?
-	\end{block}
-	\begin{itemize}
-		\item The goal was to learn about orchestration, not to develop impressive features.
-		\item I didn't want to lose time by thinking of exceptional use cases.
-		\item Those are component that I could find in any future project.
-	\end{itemize}
 \hyperlink{index_1}{\beamerbutton{Back to index}}
 \end{frame}
 
