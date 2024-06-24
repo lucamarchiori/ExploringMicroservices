@@ -88,6 +88,12 @@
 	\end{itemize}
 \end{frame}
 
+\begin{frame}{The exploratory approach}
+	I preferred an exploratory approach to get a basic understanding of multiple components of the microservice architecture.
+	\newline \newline
+	I could dive deep into a smaller number of components, but I would have missed the opportunity to have a global view of the system.
+\end{frame}
+
 \begin{frame}{The HPA problem}
 The Horizontal Pod Autoscaler (HPA) was not working as expected: Pods were not scaling up when multiple requests were sent to the service.
 \begin{block}{}
@@ -157,18 +163,13 @@ Checking with the HPA logs:
 	This approach allows for precise control over which image version is deployed, facilitating easier rollbacks and consistent environments across development, testing, and production stages.
 \end{frame}
 
-\begin{frame}{The exploratory approach}
-	I preferred an exploratory approach to get a basic understanding of many components of the microservice architecture.
-	\newline \newline
-	I could dive deep into a smaller number of components, but I would have missed the opportunity to have a global view of the system.
-\end{frame}
-
 \section{Take-home message}
 \begin{frame}{Take-home message}
 	% Quale sia, secondo te il principale "take-home message" dell'intera prova d'esame, per un lettore terzo, in relazione ai temi di RCD.
 	\begin{block}{}
 		Microservices are much more complex than traditional monolithic applications. They require an experienced architectural view because even if tools are available to simplify the orchestration, the complexity of the system requires a deep understanding of the underlying concepts of distributed systems.
 	\end{block}
+	The decision to implement microservices should be driven by actual needs because it involves completely different skills and organizational structures than traditional applications.
 \end{frame}
 \section{Learning outcome}
 \begin{frame}{Learning outcome}
@@ -181,6 +182,21 @@ Checking with the HPA logs:
 		\item Microservices are interesting but the choice of implementing them should be driven by actual needs, not just because they are trendy.
 	\end{itemize}
 \end{frame}
+
+\begin{frame}{Learning outcome}
+	\begin{block}{The Asynchronous Event-Driven Architecture is powerful}
+	\begin{itemize}
+		% Kubernetes and DOcker and stuff sono molto belli, ma senza una base teorica non si va da nessuna parte. Sento dai miei colleghi che molti li usano perchè vanno di moda ma non sanno realmente cosa stanno facendo.
+		\item Enhances decoupling between producers and consumers. 
+		\item Incorporates robust failure handling mechanisms.
+		\item Offers superior scalability support.
+	\end{itemize}
+	\end{block}
+
+	This discovery has changed the way I think about software architecture and design.
+\end{frame}
+
+
 \section{CFU evaluation}
 \begin{frame}{CFU evaluation}
 	6 CFU equals to 150 hours of work.
@@ -202,16 +218,52 @@ Checking with the HPA logs:
 		\begin{itemize}
 			\item Very interesting topics that connect basic C.S. concepts with more advanced and real-world applications.
 			\item I enjoyed the interactions between the students and the professor, especially for flipped classroom lessons.
-			\item It would have been interesting to have more discussion sessions.
 		\end{itemize}
 	\end{block}
 	\begin{block}{Improvements}
 		\begin{itemize}
+			\item It would have been interesting to have more discussion sessions.
 			\item I felt a little lost during the project development. It is hard to start from scratch without a clear idea of what are the expectations.
 		\end{itemize}
 	\end{block}
 \end{frame}
 
+\begin{frame}{Sources of Information}
+	\begin{itemize}
+		\item \textbf{Official Docker documentation website}
+		\begin{itemize}
+			\item \url{https://docs.docker.com/}
+		\end{itemize}
+
+		\item \textbf{Official Kubernetes documentation website}
+		\begin{itemize}
+			\item \url{https://kubernetes.io/docs/}
+		\end{itemize}
+
+		\item \textbf{Introduction to Microservices}
+		\begin{itemize}
+			\item \url{https://web.archive.org/web/20240202154248/https://www.nginx.com/blog/introduction-to-microservices/}
+		\end{itemize}
+
+		\item \textbf{Building Microservices with Go} - Nic Jackson
+
+		\item \textbf{Building Microservices: Designing Fine-Grained Systems} - Sam Newman
+
+		\item \textbf{Microservices} - Martin Fowler
+		\begin{itemize}
+			\item \url{https://web.archive.org/web/20180214171522/https://martinfowler.com/articles/microservices.html}
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\setbeamercolor{background canvas}{bg=red_unipd}
+\begin{frame}{}
+	\begin{center}
+		\Huge{\textcolor{white}{Thank you for your attention!}}
+	\end{center}
+\end{frame}
+
+\setbeamercolor{background canvas}{bg=white}
 \begin{frame}{Missing definitions}
 	\label{index_1}
 	Extra slides for missing definitions:
@@ -223,42 +275,7 @@ Checking with the HPA logs:
 		\end{itemize}
 \end{frame}
 
-\begin{frame}{Sources of Information}
-    \begin{itemize}
-        \item \textbf{Official Docker documentation website}
-        \begin{itemize}
-            \item \url{https://docs.docker.com/}
-        \end{itemize}
 
-        \item \textbf{Official Kubernetes documentation website}
-        \begin{itemize}
-            \item \url{https://kubernetes.io/docs/}
-        \end{itemize}
-
-        \item \textbf{Introduction to Microservices}
-        \begin{itemize}
-            \item \url{https://web.archive.org/web/20240202154248/https://www.nginx.com/blog/introduction-to-microservices/}
-        \end{itemize}
-
-        \item \textbf{Building Microservices with Go} - Nic Jackson
-
-		\item \textbf{Building Microservices: Designing Fine-Grained Systems} - Sam Newman
-
-        \item \textbf{Microservices} - Martin Fowler
-        \begin{itemize}
-            \item \url{https://web.archive.org/web/20180214171522/https://martinfowler.com/articles/microservices.html}
-        \end{itemize}
-    \end{itemize}
-\end{frame}
-
-\setbeamercolor{background canvas}{bg=red_unipd}
-\begin{frame}{}
-	\begin{center}
-		\Huge{\textcolor{white}{Thank you for your attention!}}
-	\end{center}
-\end{frame}
-
-\setbeamercolor{background canvas}{bg=white}
 \section{More}
 \begin{frame}{Microservices definitions}
 	\label{microservices_definitions}
